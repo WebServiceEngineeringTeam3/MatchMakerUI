@@ -6,20 +6,6 @@ export default class ResponseHelper {
     setHelper(props, val) {
         this.state[props] = val;
     }
-    
-    isSkuNotFound(args){
-        if(!args){
-         return false;
-        }
-        return true;
-    }
-
-    isStoreFound(args){
-        if(args !== null && args.code !== null && (args.code === 204)){
-         return false;
-        }
-        return true;
-    }
 
     isTimeOut(args){
         if(args !== null && args.code !== null && (args.code === 504)){
