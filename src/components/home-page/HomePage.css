@@ -1,0 +1,117 @@
+
+.homePage {
+    color: #333333;
+    background-color: #FFFFFF;
+    width: 100%;
+    height: 615px;
+    margin: 0 auto;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.scan-button{
+    border: black;
+    height: 50px;
+    width: 50px;
+    color: orange;
+}
+
+.skuInput{
+    border-color: black;
+}
+
+.inputTxtBox{
+
+    width: 310px;
+    height: 44px;
+    float: left;
+    background-color: #8080800d;
+    position: relative;
+    border: 1px solid #8080804d;
+    font-size: 18px;
+    color: darkslategray;
+    font-weight: 100;
+}
+
+.label{
+    font-weight: 100;
+    color: #808080b8;
+    font-size: 16px;
+    padding-left: 20px;
+    margin-bottom: 5px;
+    text-align: center;
+    margin-top: 20%;
+}
+
+.overwatch-image{
+    margin-left: 4%;
+    margin-top: 5%;
+    float: left;
+}
+
+.fortnite-image{
+    margin-top: 5%;
+    float: left;
+}
+
+.mariokart-image{
+    margin-top: 5%;
+    float: left;
+}
+
+.warzone-image{
+    margin-top: 5%;
+    float: left;
+}
+
+.warcraft-image{
+    margin-top: 5%;
+    float: left;
+}
+
+.scan-types-image{
+    width: 100%;
+    height: 135px;
+} 
+
+.search-text-box{
+    width: 50%;
+    height: 40px;
+    background-color: #F9F9F9;
+    border: 1px solid #CCCCCC;
+    border-radius: 1px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.hide {
+    display: none;
+}
+
+.btnContainer {
+    line-height: 38px;
+    font-size: 20px; 
+}
+
+.button{
+    font-size: 20px;
+    color: #FFF;
+    text-decoration: solid;
+    background-color: #f96302;
+    border: 1px solid #f96302;
+}
+
+.addCustomerButton{
+    position: absolute;
+    width: 80%;
+    margin-top: 2px;
+    margin-left: 10%;
+    border-radius: 10px;
+}
+
+.reportButton{
+    margin-top: 30px;
+    margin-left: 10%;
+    margin-bottom: 4%;
+    width: 80%;
+    border-radius: 10px;
+}

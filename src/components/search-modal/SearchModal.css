@@ -1,0 +1,17 @@
+.searchModal{
+    width: 100%;
+    height: calc(100% - 40px);
+    background-color: #FFFFFF;
+    position: absolute;
+    top: 0;
+    z-index: 2;
+}
+.back-arrow{
+    width: 35px;
+    height: auto;
+    float: left;
+}
+
+hr{
+    width: 330px;
+}
