@@ -44,7 +44,7 @@ export default class ResponseHelper {
         }
         return noError;
     }
-    
+
     showHideScrollBar = (showHide = '') => {
         // if nothing is passed, it will clear the class name
         return document.getElementsByTagName("body")[0].className = showHide;
