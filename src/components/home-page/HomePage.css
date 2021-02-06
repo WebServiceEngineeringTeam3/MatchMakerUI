@@ -15,11 +15,6 @@
     color: orange;
 }
 
-.skuScan{
-    padding-top: 50%;
-    padding-left: 60%;
-}
-
 .skuInput{
     border-color: black;
 }
@@ -29,8 +24,6 @@
     width: 310px;
     height: 44px;
     float: left;
-    /* margin-top: 4%; */
-    /* margin-left: 0%; */
     background-color: #8080800d;
     position: relative;
     border: 1px solid #8080804d;
@@ -45,53 +38,34 @@
     font-size: 16px;
     padding-left: 20px;
     margin-bottom: 5px;
-    margin-top: 30px;
     text-align: center;
+    margin-top: 20%;
 }
 
-#overwatch-image{
-    display: block;
+.overwatch-image{
+    margin-left: 4%;
     margin-top: 5%;
-    margin-left: auto;
-    margin-right: auto;
-    width: 20%;
-    height: auto;
+    float: left;
 }
 
-#fortnite-image{
-    display: block;
+.fortnite-image{
     margin-top: 5%;
-    margin-left: auto;
-    margin-right: auto;
-    width: 20%;
-    height: auto;
+    float: left;
 }
 
-#mariokart-image{
-    display: block;
+.mariokart-image{
     margin-top: 5%;
-    margin-left: auto;
-    margin-right: auto;
-    width: 20%;
-    height: auto;
+    float: left;
 }
 
-#warzone-image{
-    display: block;
+.warzone-image{
     margin-top: 5%;
-    margin-left: auto;
-    margin-right: auto;
-    width: 20%;
-    height: auto;
+    float: left;
 }
 
-#warcraft-image{
-    display: block;
+.warcraft-image{
     margin-top: 5%;
-    margin-left: auto;
-    margin-right: auto;
-    width: 20%;
-    height: auto;
+    float: left;
 }
 
 .scan-types-image{

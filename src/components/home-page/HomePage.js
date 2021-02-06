@@ -48,39 +48,29 @@ class HomePage extends Component{
         return(
                 <Context.Consumer>
                 {(context) => (
-                    <div className="row">
                         <div className="homePage">
                             <div data-testid="titleTxt"><Header headerTextClassName="titleTxt" id="titleTxt">{APP_TITLE}</Header></div>
-                            <div className="column">
+                            <div id="images">
                                 <div id="overwatch-image">
                                     <div className="overwatch-image" data-testid="overwatchImage"><img src={overwatchImage} alt="overwatch"/></div>
                                 </div>
-                            </div>
-                            <div className="column">
+                                <div id="warzone-image">
+                                    <div className="warzone-image" data-testid="warzoneImage"><img src={warzoneImage} alt="warzone"/></div>
+                                </div>
+                                <div id="warcraft-image">
+                                    <div className="warcraft-image" data-testid="warcraftImage"><img src={worldOfWarcraftImage} alt="warcraft"/></div>
+                                </div>
                                 <div id="fortnite-image">
                                     <div className="fortnite-image" data-testid="fortniteImage"><img src={fortniteImage} alt="fortnite"/></div>
                                 </div>
-                            </div>
-                            <div className="column">
                                 <div id="mariokart-image">
                                     <div className="mariokart-image" data-testid="mariokartImage"><img src={marioKartImage} alt="mariokart"/></div>
-                                </div>
-                            </div>
-                            <div className="column">
-                                <div id="warzone-image">
-                                    <div className="warzone-image" data-testid="warzoneImage"><img src={warzoneImage} alt="warzonekart"/></div>
-                                </div>
-                            </div>
-                            <div className="column">
-                                <div id="warcraft-image">
-                                    <div className="warcraft-image" data-testid="warcraftImage"><img src={worldOfWarcraftImage} alt="warcraftkart"/></div>
                                 </div>
                             </div>
                             <div className={"label " + (this.state.showSearchModal ? 'hide': '')} id="label" data-testid="homepageLabel">{HOME_PAGE_LABEL}</div>
                             <div data-testid="searchBox" className={"search-text-box "+(this.state.showSearchModal ? 'hide': '')} onClick={() => {this.setStateForModal(true)}}></div>
                             {this.renderSearchModal(this.state.showSearchModal)}
                         </div>
-                    </div>
                 )}
                 </Context.Consumer>
         );
