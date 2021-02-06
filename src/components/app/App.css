@@ -1,38 +1,36 @@
-.App {
-  text-align: center;
+.skudepot-font-weight{
+  font-weight: 300;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.skudepot-font-family{
+
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.skudepot-font-color-grey{
+  color: #555;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+body{
+  font-family: 'Open Sans', sans-serif;
 }
 
-.App-link {
-  color: #61dafb;
+.textbox-border {
+  border-color: red;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.button_search{
+  font-size: 20px;
+  border: 1px #CCCCCC;
+  background-color: #F9F9F9;
+  margin-left: 10px;
+  margin-top: 5px;
+  text-decoration: solid;
+}
+
+.button_disable{
+  color: #777777;
+}
+
+.button_enable{
+  color: #F96302;
 }

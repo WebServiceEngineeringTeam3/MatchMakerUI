@@ -1,0 +1,57 @@
+.header{
+    color: white;
+    background-color: #2B3134;
+    width: 100%;
+    z-index: 1;
+    line-height: 2.8em;
+    font-size: 18px;
+    text-align: center;
+}
+
+.skuNotFoundDiv{
+    color: white;
+    background-color: #ED1C24;
+    height: 55px;
+    z-index: 1;
+    position: relative;
+    width: 100%;
+    display: none;
+}
+
+.skuNotFoundText{
+    width: 250px;
+    margin: 0 auto;
+    font-size: 14px;
+    margin-top: 12px;
+    float: left;
+}
+
+.skuNotFoundCloseBtn{
+    float: left;
+    width: 30px;
+    margin-top: 17px;
+    margin-left: 20px;
+    font-size: 18px;
+}
+
+.skuNotFoundIconDiv{
+    float: left;
+    width: 50px;
+}
+
+.skuNotFoundIcon{
+    width: 30px;
+    height: 30px;
+    margin-left: 10px;
+    margin-top: 10px;
+    float: left;
+}
+
+.titleTxt {
+    margin-top: 16px;
+    font-size: 18px;
+    display: block;
+    font-family: sans-serif;
+    font-weight: 500;
+    text-align: center;
+}

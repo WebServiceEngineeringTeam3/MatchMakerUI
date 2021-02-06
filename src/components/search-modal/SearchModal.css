@@ -1,0 +1,26 @@
+.searchModal{
+    width: 100%;
+    height: calc(100% - 40px);
+    background-color: #FFFFFF;
+    position: absolute;
+    top: 0;
+    z-index: 2;
+}
+.back-arrow{
+    width: 35px;
+    height: auto;
+    float: left;
+}
+
+.label{
+    font-weight: 100;
+    color: #808080b8;
+    font-size: 16px;
+    padding-left: 20px;
+    margin-bottom: 5px;
+    margin-top: 30px;
+}
+
+hr{
+    width: 330px;
+}

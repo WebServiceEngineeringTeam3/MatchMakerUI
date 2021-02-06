@@ -1,0 +1,63 @@
+.headerTxtBoxDiv{
+    width: 220px;
+    height: 33px;
+    float: left;
+    margin-top: 3px;
+    margin-left: 25px;
+    border-radius: 2px;
+    background-color: white;
+    position: relative;
+}
+
+.headerTxtBox{
+    width: 210px;
+    margin-top: 5px;
+    margin-left: 2px;
+    display: block;
+    float: left;
+    color: grey;
+    font-size: 16px;
+    border: none;
+}
+
+.headerTxtBox:focus{
+    outline: none;
+}
+
+/* --------------- */
+
+.searchboxDiv{
+    background-color: #F9F9F9;
+    width: 330px;
+    height: 40px;
+    margin: 5px auto;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5);
+}
+.searchTextboxDiv{
+    width: 200px;
+    float: left;
+}
+
+.searchTextbox{
+    width: 200px;
+    height: 30px;
+    font-size: 20px;
+
+}
+
+.button_search{
+    font-size: 20px;
+    border: 1px #CCCCCC;
+    background-color: #F9F9F9;
+    margin-left: 10px;
+    margin-top: 5px;
+}
+
+.button_disable{
+	color: #777777;
+}
+
+.button_enable{
+	color: #F96302;
+}
+
