@@ -1,0 +1,17 @@
+.backBtn{
+    width: 25px;
+    height: 25px;
+    float: left;
+    margin-left: 10px;
+    margin-top: 12px;
+}
+
+.backBtnTxt {
+    float: left;
+    font-size: 16px;
+}
+
+.backTemp{
+    float: left;
+    width: 27%;
+}

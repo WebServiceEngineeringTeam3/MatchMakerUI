@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {HashRouter as Router, Route, Switch} from 'react-router-dom'
 import HomePage from '../home-page/HomePage'
 import Context from '../../components/contexts/Context'
+import FormPage from '../../components/form-page/FormPage'
 
 class App extends Component {
   constructor(props) {
@@ -78,6 +79,7 @@ class App extends Component {
           <Router>
             <Switch>
               <Route exact path='/' render={props => <HomePage {...props}/>} />
+              <Route path='/form' render={props => <FormPage {...props}/>} />
             </Switch>
           </Router>
         </div>

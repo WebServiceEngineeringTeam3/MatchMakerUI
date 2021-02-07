@@ -1,0 +1,35 @@
+.form_label {
+    font-weight: bold;
+    font-size: 16px;
+    padding-left: 5%;
+    margin-bottom: 5px;
+    margin-top: 30px;
+}
+
+.form-page{
+    top: 0;
+}
+
+.form-textbox{
+    padding-left: 5%;
+}
+
+.submit-button{
+    font-size: 20px;
+    border: 1px #CCCCCC;
+    background-color: #F9F9F9;
+    margin-left: 5%;
+    margin-top: 1%;
+}
+
+.button_disable{
+	color: #777777;
+}
+
+.button_enable{
+	color: #F96302;
+}
+
+.headerTxt{
+    width: 50%;
+}
