@@ -8,7 +8,8 @@ import worldOfWarcraftImage from './../../images/worldOfWarcraft.jpg'
 import Header from './../header/Header'
 import SearchModal from "./../search-modal/SearchModal"
 import Context from '../../components/contexts/Context'
-import { APP_TITLE, HOME_PAGE_LABEL } from '../../models/Constants';
+import { APP_TITLE, HOME_PAGE_LABEL, CREATE_PROFILE_TEXT } from '../../models/Constants';
+import { Link } from 'react-router-dom';
 
 class HomePage extends Component{
     
@@ -70,6 +71,11 @@ class HomePage extends Component{
                             <div className={"label " + (this.state.showSearchModal ? 'hide': '')} id="label" data-testid="homepageLabel">{HOME_PAGE_LABEL}</div>
                             <div data-testid="searchBox" className={"search-text-box "+(this.state.showSearchModal ? 'hide': '')} onClick={() => {this.setStateForModal(true)}}></div>
                             {this.renderSearchModal(this.state.showSearchModal)}
+                            <div>
+                                <Link to="/form" data-testid="addPlayerButton">
+                                    <button type="button" className={"button btnContainer addPlayerButton "+(this.state.showSearchModal ? 'hide': '')}>{CREATE_PROFILE_TEXT}</button>
+                                </Link>
+                            </div>
                         </div>
                 )}
                 </Context.Consumer>
