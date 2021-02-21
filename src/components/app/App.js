@@ -3,6 +3,7 @@ import {HashRouter as Router, Route, Switch} from 'react-router-dom'
 import HomePage from '../home-page/HomePage'
 import Context from '../../components/contexts/Context'
 import FormPage from '../../components/form-page/FormPage'
+import PlayerInfoPage from "../playerinfo-page/PlayerInfoPage";
 
 class App extends Component {
   constructor(props) {
@@ -10,7 +11,7 @@ class App extends Component {
 
     this.state = {
       searchedInput: '',
-      playerId: '',
+      gamerId: '',
       playerInfo: null,
       showSearchModal: false,
       isLoading: true,
@@ -42,9 +43,9 @@ class App extends Component {
     });
   }
 
-  setPlayerId = (value) => {
+  setGamerId = (value) => {
     this.setState({
-        playerId: value
+        gamerId: value
     });
   }
 
@@ -68,8 +69,8 @@ class App extends Component {
         setSearchedInput: this.setSearchedInput,
           playerInfo: this.state.playerInfo,
           setPlayerInfo: this.setPlayerInfo,
-          playerId: this.state.playerId,
-          setPlayerId: this.setPlayerId,
+          gamerId: this.state.gamerId,
+          setGamerId: this.setGamerId,
         serviceDown: this.state.serviceDown,
         setServiceDown: this.setServiceDown,
           playerNotFound: this.state.playerNotFound,
@@ -80,6 +81,7 @@ class App extends Component {
             <Switch>
               <Route exact path='/' render={props => <HomePage {...props}/>} />
               <Route path='/form' render={props => <FormPage {...props}/>} />
+              <Route path='/playerInfo' render={props => <PlayerInfoPage {...props}/>} />
             </Switch>
           </Router>
         </div>
