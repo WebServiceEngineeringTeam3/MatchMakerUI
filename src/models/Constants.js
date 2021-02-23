@@ -11,6 +11,7 @@ export const MK8_VALUE = "Mario Kart 8";
 export const FORTNITE_VALUE = "Fortnite";
 
 export const RESOURCE_NOT_AVAILABLE_CODE = 204;
+export const SERVICE_ERROR_CODE = 500;
 export const SERVICE_UNAVAILABLE_CODE = 503;
 
 export const UNKNOWN_INPUT = "UNKNOWN_INPUT";

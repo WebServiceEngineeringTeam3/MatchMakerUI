@@ -4,11 +4,13 @@ import Header from './../header/Header';
 import BackNavigator from "../back-navigator/BackNavigator";
 import { postPlayer } from '../../api/endpoints';
 import {
-    CREATE_PROFILE_TEXT, OVERWATCH_VALUE, WARZONE_VALUE, WOW_VALUE, MK8_VALUE, FORTNITE_VALUE, RESOURCE_NOT_AVAILABLE_CODE
+    CREATE_PROFILE_TEXT, OVERWATCH_VALUE, WARZONE_VALUE, WOW_VALUE, MK8_VALUE, FORTNITE_VALUE, RESOURCE_NOT_AVAILABLE_CODE,
+    SERVICE_ERROR_CODE
 } from '../../models/Constants';
 import ResponseHelper from '../Util/ResponseHelper.js';
 import Context from '../../components/contexts/Context';
 import { validateForAlphaInput, validateForNumericInput, validateForAlphaNumericAndSpaceInput } from '../Util/util';
+import ErrorBanner from "../error-banner/ErrorBanner";
 
 class FormPage extends Component{
 
@@ -22,6 +24,7 @@ class FormPage extends Component{
             showSearchModal: false,
             serviceDown: false,
             playerNotFound: false,
+            playerFound: false,
             errorFlag: false,
             buttonCSS: 'button_disable',
             fromPage: ''
@@ -148,10 +151,10 @@ class FormPage extends Component{
         }
     }
 
-    processCustomer = () => {
+    processPlayer = () => {
 
         if(this.validateFormInput()){
-                    console.log("processCustomer: " + document.getElementById("firstName").value);
+                    console.log("processPlayer: " + document.getElementById("firstName").value);
 
                     let firstName = document.getElementById("firstName").value;
                     let lastName = document.getElementById("lastName").value;
@@ -178,17 +181,31 @@ class FormPage extends Component{
                             if(errorObject){
                                 if(errorObject.code === RESOURCE_NOT_AVAILABLE_CODE){
                                     this.setState({
-                                        customerNotFound: true,
+                                        playerNotFound: true,
+                                        playerFound: false,
                                         serviceDown: false,
-                                        isLoading: false
+                                        isLoading: false,
+                                        gamerId: gamerId
+                                    });
+                                }
+                                else if(errorObject.code === SERVICE_ERROR_CODE){
+                                    console.log("GAMER ID ALREADY EXISTS. NEED TO SUBMIT NEW GAMER ID");
+                                    this.setState({
+                                        playerNotFound: false,
+                                        playerFound: true,
+                                        serviceDown: false,
+                                        isLoading: false,
+                                        gamerId: gamerId
                                     });
                                 }
                                 else{
                                      // To store local Error Message in Context
                                     this.setState({
-                                        customerNotFound: false,
+                                        playerNotFound: false,
+                                        playerFound: false,
                                         serviceDown: true,
-                                        isLoading: false
+                                        isLoading: false,
+                                        gamerId: gamerId
                                     });
                                 }
                             }
@@ -198,6 +215,7 @@ class FormPage extends Component{
                                 this.context.setPlayerInfo(playerObject);
                                 this.context.setServiceDown(false);
                                 this.context.setPlayerNotFound(false);
+                                this.context.setPlayerFound(false);
 
                                 this.setState(
                                     {
@@ -205,7 +223,8 @@ class FormPage extends Component{
                                         gamerId: data.gamerId,
                                         playerInfo: playerObject,
                                         serviceDown: false,
-                                        playerNotFound: false
+                                        playerNotFound: false,
+                                        playerFound: false,
                                     });
 
                                 this.props.history.push({pathname: '/playerInfo', state:{
@@ -214,7 +233,8 @@ class FormPage extends Component{
                                     playerInfo: playerObject,
                                     isLoading: false,
                                     serviceDown: false,
-                                    playerNotFound: false
+                                    playerNotFound: false,
+                                        playerFound: false
                                 }})
                             }
                         }).catch(error => {
@@ -240,6 +260,20 @@ class FormPage extends Component{
 
     }
 
+    /**
+     * This function is used to Show Error Box While Fetch Call Get the Error Message.
+     */
+    renderErrorMessage() {
+        if(this.state.serviceDown){ return (<ErrorBanner gamerId={this.state.gamerId} message="SERVICE_DOWN"></ErrorBanner>);}
+        else if(this.state.playerNotFound){
+            return (<ErrorBanner gamerId={this.state.gamerId} message="PLAYER_NOT_FOUND"></ErrorBanner>);
+        }
+        else if(this.state.playerFound){
+            return (<ErrorBanner gamerId={this.state.gamerId} message="PLAYER_FOUND"></ErrorBanner>);
+        }
+
+    }
+
     render(){
         return(
          <Context.Consumer>
@@ -251,6 +285,7 @@ class FormPage extends Component{
                         <div className="headerTxt">{CREATE_PROFILE_TEXT}</div>
                         <div>&nbsp;</div>
                     </Header>
+                {this.renderErrorMessage()}
                 <div className="form_label">First Name</div>
                 <div className="form-textbox"><input type="text" id="firstName" data-testid="firstName" onKeyUp={this.validateFormInput}></input></div>
                 <div className="form_label">Last Name</div>
@@ -325,7 +360,7 @@ class FormPage extends Component{
                         <option value="Select" id="Select">Select</option>
                     </select>
                 </div>
-                <div><button id="submit-button" className={this.state.buttonCSS + " submit-button disabled"} onClick={this.processCustomer}>Submit</button></div>
+                <div><button id="submit-button" className={this.state.buttonCSS + " submit-button disabled"} onClick={this.processPlayer}>Submit</button></div>
             </div>
             )}
          </Context.Consumer>

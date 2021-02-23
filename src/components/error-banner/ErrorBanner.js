@@ -8,11 +8,14 @@ export default class ErrorBanner extends Component {
     getErrorMessage =(param) =>{
         
         let PLAYER_NOT_FOUND = "PLAYER WITH GAMER ID # " + this.props.gamerId + " not found. Enter valid Gamer ID.",
+            PLAYER_FOUND = "PLAYER WITH GAMER ID # " + this.props.gamerId + " already exists. Enter a different Gamer ID.",
             SERVICE_DOWN = "SERVICE IS UNAVAILABLE";
 
         switch (param) {
             case "PLAYER_NOT_FOUND":
                 return PLAYER_NOT_FOUND;
+            case "PLAYER_FOUND":
+                return PLAYER_FOUND;
             case "SERVICE_DOWN":
                 return SERVICE_DOWN;
             default:

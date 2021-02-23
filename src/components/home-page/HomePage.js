@@ -28,6 +28,7 @@ class HomePage extends Component{
          this.context.setSearchedInput("");
          this.context.setPlayerInfo(null);
          this.context.setGamerId("");
+         this.context.setPlayerFound(false);
     }
 
     renderSearchModal(value){

@@ -16,7 +16,8 @@ class App extends Component {
       showSearchModal: false,
       isLoading: true,
       serviceDown: false,
-      playerNotFound: false
+      playerNotFound: false,
+        playerFound: false
     }
   }
 
@@ -61,6 +62,12 @@ class App extends Component {
     });
   }
 
+    setPlayerFound = (value) => {
+        this.setState({
+            playerFound: value
+        });
+    }
+
 
   render = () => (
 
@@ -74,7 +81,9 @@ class App extends Component {
           serviceDown: this.state.serviceDown,
           setServiceDown: this.setServiceDown,
           playerNotFound: this.state.playerNotFound,
-          setPlayerNotFound: this.setPlayerNotFound
+          setPlayerNotFound: this.setPlayerNotFound,
+          playerFound: this.state.playerNotFound,
+          setPlayerFound: this.setPlayerNotFound
       }}>
         <div className='application-container'>
           <Router>
