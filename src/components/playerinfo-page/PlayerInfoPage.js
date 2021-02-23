@@ -23,7 +23,6 @@ class PlayerInfoPage extends Component {
             searchInput: '',
             gamerId: this.props.gamerId,
             PlayerInfo: this.props.playerInfo,
-            //isLoading: this.props.isLoading,
             isLoading: true,
             showSearchModal: false,
             serviceDown: false,

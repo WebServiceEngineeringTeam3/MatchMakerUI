@@ -21,7 +21,7 @@ class FormPage extends Component{
             isLoading: false,
             showSearchModal: false,
             serviceDown: false,
-            customerNotFound: false,
+            playerNotFound: false,
             errorFlag: false,
             buttonCSS: 'button_disable',
             fromPage: ''
@@ -153,7 +153,6 @@ class FormPage extends Component{
         if(this.validateFormInput()){
                     console.log("processCustomer: " + document.getElementById("firstName").value);
 
-                    let playerId = "";
                     let firstName = document.getElementById("firstName").value;
                     let lastName = document.getElementById("lastName").value;
                     let gamerId = document.getElementById("gamerId").value;
@@ -166,9 +165,9 @@ class FormPage extends Component{
                     let game = document.getElementById("game").value;
                     let gameMode = document.getElementById("gameMode").value;
                     if(this.context.playerInfo !== null){
-                        playerId = this.context.playerInfo.playerId;
+                        gamerId = this.context.playerInfo.gamerId;
                     }
-                        console.log("FormPage playerId: " + playerId);
+                        console.log("FormPage gamerId: " + gamerId);
                         postPlayer("CREATE", gamerId, firstName, lastName, age, skillLevel, region, language, personalityType, minimumWaitTime, game, gameMode).then(data =>{
                             let playerObject = data.playerInfo;
                             let errorObject = data.errorResponse;
@@ -185,7 +184,7 @@ class FormPage extends Component{
                                     });
                                 }
                                 else{
-                                     // To Store local Error Message in Context
+                                     // To store local Error Message in Context
                                     this.setState({
                                         customerNotFound: false,
                                         serviceDown: true,
@@ -195,7 +194,7 @@ class FormPage extends Component{
                             }
                             else{
                                 console.log("FormPage Success");
-                                this.context.setSearchedInput(data.playerId);
+                                this.context.setSearchedInput(data.gamerId);
                                 this.context.setPlayerInfo(playerObject);
                                 this.context.setServiceDown(false);
                                 this.context.setPlayerNotFound(false);

@@ -65,14 +65,14 @@ class App extends Component {
   render = () => (
 
       <Context.Provider value={{
-        searchedInput: this.state.searchedInput,
-        setSearchedInput: this.setSearchedInput,
+          searchedInput: this.state.searchedInput,
+          setSearchedInput: this.setSearchedInput,
           playerInfo: this.state.playerInfo,
           setPlayerInfo: this.setPlayerInfo,
           gamerId: this.state.gamerId,
           setGamerId: this.setGamerId,
-        serviceDown: this.state.serviceDown,
-        setServiceDown: this.setServiceDown,
+          serviceDown: this.state.serviceDown,
+          setServiceDown: this.setServiceDown,
           playerNotFound: this.state.playerNotFound,
           setPlayerNotFound: this.setPlayerNotFound
       }}>
