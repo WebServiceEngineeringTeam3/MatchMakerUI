@@ -16,7 +16,10 @@ function getHomepage() {
                 searchedInput: '',
                 setSearchedInput: jest.fn(),
                 setPlayerInfo: jest.fn(),
-                setPlayerId: jest.fn()
+                setPlayerId: jest.fn(),
+                setGamerId: jest.fn(),
+                setPlayerFound: jest.fn(),
+                setPlayerNotFound: jest.fn()
             }}>
             	<Homepage/>
     	 </Context.Provider>

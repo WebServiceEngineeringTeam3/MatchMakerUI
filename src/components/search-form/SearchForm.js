@@ -22,7 +22,6 @@ class SearchForm extends Component{
         this.enterInput = this.enterInput.bind(this);
         this.handleValueChange = this.handleValueChange.bind(this);
         this.searchAfterClick = this.searchAfterClick.bind(this);
-        this.validLength = this.validLength.bind(this);
     }
     
     componentDidMount() {
@@ -70,27 +69,6 @@ class SearchForm extends Component{
             this.props.searchInput(this.state.value, this.state.searchFormError, this.state.showSearchModal);
         }
     }
-    
-    /**
-     * This function will return true if the length of input is between 6 and 14, false otherwise
-     * @method validLength
-     * @param String input
-     * @returns boolean
-     * @example 
-     *  ///returns true
-     *  this.validLength(123456);
-     *  
-     *  @example
-     *  ///returns false
-     *  this.validLength(123);
-     */
-    validLength(input) {
-        if (input.length === 7) {
-            return true;
-        }
-        return false;
-
-    }
 
     /**
      * This function will set the component state every time the user enters input into the text box.
@@ -110,7 +88,7 @@ class SearchForm extends Component{
 
     /**
      * This function will set the component state every time the user enters input into the text box.
-     * Once user clicks 'Enter' button, it will validate if input has valid length and retrieve sku details
+     * Once user clicks 'Enter' button, it will validate if input has valid length and retrieve player details
      * if it does
      * @method enterInput
      * @param Event e
@@ -123,9 +101,9 @@ class SearchForm extends Component{
 
             this.props.setStateForModal(false);
             if(history.location.pathname === '/'){
-                history.push({pathname: './inquiry', state: {searchInput: value}});
+                history.push({pathname: './playerInfo', state: {searchInput: value}});
             } else {
-                this.props.retreiveCustomerAndPurchaseInfo(this.state.value);
+                this.props.retrievePlayerInfo(this.state.value);
             }
         }
     }
@@ -143,11 +121,11 @@ class SearchForm extends Component{
         history = this.props.history;
     
         //input validation
-        if(this.validLength(value)){
+        if(validateForAlphaNumericInput(value)){
 
             this.props.setStateForModal(false);
             if(history.location.pathname === '/'){
-                history.push({pathname: './inquiry', state: {searchInput: value}});
+                history.push({pathname: './playerInfo', state: {searchInput: value}});
             }
             else{
                 this.props.retreiveCustomerAndPurchaseInfo(this.state.value);
