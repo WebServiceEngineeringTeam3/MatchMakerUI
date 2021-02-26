@@ -2,13 +2,15 @@ import React, { Component } from 'react';
 import './FormPage.css';
 import Header from './../header/Header';
 import BackNavigator from "../back-navigator/BackNavigator";
-// import { postCustomer } from '../../api/endpoints';
+import { postPlayer } from '../../api/endpoints';
 import {
-    CREATE_PROFILE_TEXT, OVERWATCH_VALUE, WARZONE_VALUE, WOW_VALUE, MK8_VALUE, FORTNITE_VALUE
+    CREATE_PROFILE_TEXT, OVERWATCH_VALUE, WARZONE_VALUE, WOW_VALUE, MK8_VALUE, FORTNITE_VALUE, RESOURCE_NOT_AVAILABLE_CODE,
+    SERVICE_ERROR_CODE
 } from '../../models/Constants';
-// import ResponseHelper from '../Util/ResponseHelper.js';
+import ResponseHelper from '../Util/ResponseHelper.js';
 import Context from '../../components/contexts/Context';
-import { validateForAlphaInput, validateForNumericInput, validateDate, validateForAlphaNumericAndSpaceInput } from '../Util/util';
+import { validateForAlphaInput, validateForNumericInput, validateForAlphaNumericAndSpaceInput } from '../Util/util';
+import ErrorBanner from "../error-banner/ErrorBanner";
 
 class FormPage extends Component{
 
@@ -16,12 +18,13 @@ class FormPage extends Component{
         super(props)
         this.state = {
             searchInput: '',
-            playerId: this.props.playerId,
+            gamerId: this.props.gamerId,
             playerInfo: this.props.playerInfo,
             isLoading: false,
             showSearchModal: false,
             serviceDown: false,
-            customerNotFound: false,
+            playerNotFound: false,
+            playerFound: false,
             errorFlag: false,
             buttonCSS: 'button_disable',
             fromPage: ''
@@ -52,12 +55,26 @@ class FormPage extends Component{
         return isValid;
     }
 
+    validateAge = () =>{
+        let isValid = validateForNumericInput(document.getElementById("age").value);
+        console.log("age: " + isValid);
+        return isValid;
+    }
+
+    validateWaitTime = () =>{
+        let isValid = validateForNumericInput(document.getElementById("minimumWaitTime").value);
+        console.log("minimumWaitTime: " + isValid);
+        return isValid;
+    }
+
     validateFormInput = () =>{
         let isValid = false;
         this.setState({buttonCSS: 'button_disable'});
         if(this.validateFirstName() 
             && this.validateLastName()
             && this.validateGamerId()
+            && this.validateAge()
+            && this.validateWaitTime()
             ){
                 isValid = true;
                 this.setState({buttonCSS: 'button_enable'});
@@ -71,6 +88,8 @@ class FormPage extends Component{
             document.getElementById('firstName').value = this.context.playerInfo.firstName;
             document.getElementById('lastName').value = this.context.playerInfo.lastName;
             document.getElementById('gamerId').value = this.context.playerInfo.gamerId;
+            document.getElementById('age').value = this.context.playerInfo.age;
+            document.getElementById('minimumWaitTime').value = this.context.playerInfo.minimumWaitTime;
             let skillLevel = this.context.playerInfo.skillLevel;
             document.getElementById('skillLevel').options.namedItem(skillLevel).selected=true;
             let region = this.context.playerInfo.region;
@@ -132,94 +151,125 @@ class FormPage extends Component{
         }
     }
 
-    processCustomer = () => {
+    processPlayer = () => {
 
         if(this.validateFormInput()){
-                    console.log("processCustomer: " + document.getElementById("firstName").value);
+                    console.log("processPlayer: " + document.getElementById("firstName").value);
 
-                    let playerId = "";
                     let firstName = document.getElementById("firstName").value;
                     let lastName = document.getElementById("lastName").value;
                     let gamerId = document.getElementById("gamerId").value;
                     let skillLevel = document.getElementById("skillLevel").value;
                     let region = document.getElementById("region").value;
+                    let age = document.getElementById("age").value;
+                    let language = document.getElementById("language").value;
+                    let personalityType = document.getElementById("personalityType").value;
+                    let minimumWaitTime = document.getElementById("minimumWaitTime").value;
+                    let game = document.getElementById("game").value;
+                    let gameMode = document.getElementById("gameMode").value;
                     if(this.context.playerInfo !== null){
-                        playerId = this.context.playerInfo.playerId;
+                        gamerId = this.context.playerInfo.gamerId;
                     }
-                        console.log("FormPage playerId: " + playerId);
-                        // TODO: invoke backend service to create new player profile
-                        // postCustomer(playerId, firstName, lastName, streetAddress, city, state, zipCode, birthday, points).then(data =>{
-                        //     let customerObject = data.playerInfo;
-                        //     let purchaseObject = data.purchaseInfo;
-                        //     let errorObject = data.errorResponse;
-                        //
-                        //     console.log("playerInfo: " + JSON.stringify(data.playerInfo));
-                        //     console.log("purchaseInfo: " + JSON.stringify(data.purchaseInfo));
-                        //     console.log("errorResponse: " + JSON.stringify(data.errorResponse));
-                        //
-                        //     if(errorObject){
-                        //         if(errorObject.code === RESOURCE_NOT_AVAILABLE_CODE){
-                        //             this.setState({
-                        //                 customerNotFound: true,
-                        //                 serviceDown: false,
-                        //                 isLoading: false
-                        //             });
-                        //         }
-                        //         else{
-                        //              // To Store local Error Message in Context
-                        //             this.setState({
-                        //                 customerNotFound: false,
-                        //                 serviceDown: true,
-                        //                 isLoading: false
-                        //             });
-                        //         }
-                        //     }
-                        //     else{
-                        //         console.log("FormPage Success");
-                        //         this.context.setSearchedInput(data.playerId);
-                        //         this.context.setplayerInfo(customerObject);
-                        //         this.context.setPurchaseInfo(purchaseObject);
-                        //         this.context.setServiceDown(false);
-                        //         this.context.setCustomerNotFound(false);
-                        //
-                        //         this.setState(
-                        //             {
-                        //                 isLoading: false,
-                        //                 playerId: data.playerId,
-                        //                 playerInfo: customerObject,
-                        //                 serviceDown: false,
-                        //                 customerNotFound: false
-                        //             });
-                        //
-                        //         this.props.history.push({pathname: '/inquiry', state:{
-                        //             searchInput: data.playerId,
-                        //             playerId: data.playerId,
-                        //             playerInfo: customerObject,
-                        //             purchaseInfo: purchaseObject,
-                        //             isLoading: false,
-                        //             serviceDown: false,
-                        //             customerNotFound: false
-                        //         }})
-                        //     }
-                        // }).catch(error => {
-                        // console.log("ERROR PROCESSING CUSTOMER" + error.message);
-                        // try {
-                        //     let response = JSON.parse(error.message);
-                        //     let errorResponse = response.errorResponse;
-                        //     let helper = new ResponseHelper();
-                        //     this.handleError(errorResponse, helper);
-                        //      this.setState({
-                        //         serviceDown: true,
-                        //         isLoading: false
-                        //     });
-                        // }
-                        // catch (err) {
-                        //     this.setState({
-                        //         serviceDown: true,
-                        //         isLoading: false
-                        //     });
-                        // }
-                        // });
+                        console.log("FormPage gamerId: " + gamerId);
+                        postPlayer("CREATE", gamerId, firstName, lastName, age, skillLevel, region, language, personalityType, minimumWaitTime, game, gameMode).then(data =>{
+                            let playerObject = data.playerInfo;
+                            let errorObject = data.errorResponse;
+
+                            console.log("playerInfo: " + JSON.stringify(data.playerInfo));
+                            console.log("errorResponse: " + JSON.stringify(data.errorResponse));
+
+                            if(errorObject){
+                                if(errorObject.code === RESOURCE_NOT_AVAILABLE_CODE){
+                                    this.setState({
+                                        playerNotFound: true,
+                                        playerFound: false,
+                                        serviceDown: false,
+                                        isLoading: false,
+                                        gamerId: gamerId
+                                    });
+                                }
+                                else if(errorObject.code === SERVICE_ERROR_CODE){
+                                    console.log("GAMER ID ALREADY EXISTS. NEED TO SUBMIT NEW GAMER ID");
+                                    this.setState({
+                                        playerNotFound: false,
+                                        playerFound: true,
+                                        serviceDown: false,
+                                        isLoading: false,
+                                        gamerId: gamerId
+                                    });
+                                }
+                                else{
+                                     // To store local Error Message in Context
+                                    this.setState({
+                                        playerNotFound: false,
+                                        playerFound: false,
+                                        serviceDown: true,
+                                        isLoading: false,
+                                        gamerId: gamerId
+                                    });
+                                }
+                            }
+                            else{
+                                console.log("FormPage Success");
+                                this.context.setSearchedInput(data.gamerId);
+                                this.context.setPlayerInfo(playerObject);
+                                this.context.setServiceDown(false);
+                                this.context.setPlayerNotFound(false);
+                                this.context.setPlayerFound(false);
+
+                                this.setState(
+                                    {
+                                        isLoading: false,
+                                        gamerId: data.gamerId,
+                                        playerInfo: playerObject,
+                                        serviceDown: false,
+                                        playerNotFound: false,
+                                        playerFound: false,
+                                    });
+
+                                this.props.history.push({pathname: '/playerInfo', state:{
+                                    searchInput: data.gamerId,
+                                    gamerId: data.gamerId,
+                                    playerInfo: playerObject,
+                                    isLoading: false,
+                                    serviceDown: false,
+                                    playerNotFound: false,
+                                        playerFound: false
+                                }})
+                            }
+                        }).catch(error => {
+                        console.log("ERROR PROCESSING PLAYER: " + error.message);
+                        try {
+                            let response = JSON.parse(error.message);
+                            let errorResponse = response.errorResponse;
+                            let helper = new ResponseHelper();
+                            this.handleError(errorResponse, helper);
+                             this.setState({
+                                serviceDown: true,
+                                isLoading: false
+                            });
+                        }
+                        catch (err) {
+                            this.setState({
+                                serviceDown: true,
+                                isLoading: false
+                            });
+                        }
+                        });
+        }
+
+    }
+
+    /**
+     * This function is used to Show Error Box While Fetch Call Get the Error Message.
+     */
+    renderErrorMessage() {
+        if(this.state.serviceDown){ return (<ErrorBanner gamerId={this.state.gamerId} message="SERVICE_DOWN"></ErrorBanner>);}
+        else if(this.state.playerNotFound){
+            return (<ErrorBanner gamerId={this.state.gamerId} message="PLAYER_NOT_FOUND"></ErrorBanner>);
+        }
+        else if(this.state.playerFound){
+            return (<ErrorBanner gamerId={this.state.gamerId} message="PLAYER_FOUND"></ErrorBanner>);
         }
 
     }
@@ -235,12 +285,17 @@ class FormPage extends Component{
                         <div className="headerTxt">{CREATE_PROFILE_TEXT}</div>
                         <div>&nbsp;</div>
                     </Header>
+                {this.renderErrorMessage()}
                 <div className="form_label">First Name</div>
                 <div className="form-textbox"><input type="text" id="firstName" data-testid="firstName" onKeyUp={this.validateFormInput}></input></div>
                 <div className="form_label">Last Name</div>
                 <div className="form-textbox"><input type="text" id="lastName"  data-testid="lastName" onKeyUp={this.validateFormInput}></input></div>
                 <div className="form_label">Gamer ID</div>
                 <div className="form-textbox"><input type="text" id="gamerId" data-testid="gamerId" onKeyUp={this.validateFormInput}></input></div>
+                <div className="form_label">Age</div>
+                <div className="form-textbox"><input type="text" id="age" data-testid="age" onKeyUp={this.validateFormInput}></input></div>
+                <div className="form_label">Minimum Wait Time</div>
+                <div className="form-textbox"><input type="text" id="minimumWaitTime" data-testid="minimumWaitTime" onKeyUp={this.validateFormInput}></input></div>
                 <div className="form_label">Skill Level</div>
                 <div className="form-textbox">
                     <select id="skillLevel" data-testid="skillLevel">
@@ -305,7 +360,7 @@ class FormPage extends Component{
                         <option value="Select" id="Select">Select</option>
                     </select>
                 </div>
-                <div><button id="submit-button" className={this.state.buttonCSS + " submit-button disabled"} onClick={this.processCustomer}>Submit</button></div>
+                <div><button id="submit-button" className={this.state.buttonCSS + " submit-button disabled"} onClick={this.processPlayer}>Submit</button></div>
             </div>
             )}
          </Context.Consumer>

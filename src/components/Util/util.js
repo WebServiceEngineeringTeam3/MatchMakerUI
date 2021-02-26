@@ -1,3 +1,25 @@
+import { UNKNOWN_INPUT, GAMER_ID } from '../../models/Constants';
+/**
+ * This function will return input type
+ * @method validateUserInput
+ * @param String input
+ * @returns String
+ * @example
+ *  ///returns VIP_ID
+ *  this.validateUserInput(EXA6777);
+ *
+ *  @example
+ *  ///returns UNKNOWN_INPUT
+ *  this.validateUserInput(123456789121);
+ */
+export function validateUserInput(input) {
+    if(validateForAlphaNumericInput(input)){
+        return GAMER_ID;
+    } else {
+        return UNKNOWN_INPUT;
+    }
+}
+
 export function validateForNumericInput (input) {
     let isValid = false;
     if(input == null || input === ""){return isValid;}
