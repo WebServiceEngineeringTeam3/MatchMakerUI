@@ -4,6 +4,7 @@ import HomePage from '../home-page/HomePage'
 import Context from '../../components/contexts/Context'
 import FormPage from '../../components/form-page/FormPage'
 import PlayerInfoPage from "../playerinfo-page/PlayerInfoPage";
+import FriendsPage from "../friends-page/FriendsPage";
 
 class App extends Component {
   constructor(props) {
@@ -13,6 +14,7 @@ class App extends Component {
       searchedInput: '',
       gamerId: '',
       playerInfo: null,
+        friendsList: [],
       showSearchModal: false,
       isLoading: true,
       serviceDown: false,
@@ -68,6 +70,12 @@ class App extends Component {
         });
     }
 
+    setFriendsList = (value) => {
+        this.setState({
+            friendsList: value
+        });
+    }
+
 
   render = () => (
 
@@ -83,7 +91,9 @@ class App extends Component {
           playerNotFound: this.state.playerNotFound,
           setPlayerNotFound: this.setPlayerNotFound,
           playerFound: this.state.playerNotFound,
-          setPlayerFound: this.setPlayerNotFound
+          setPlayerFound: this.setPlayerNotFound,
+          friendsList: this.state.friendsList,
+          setFriendsList: this.setFriendsList
       }}>
         <div className='application-container'>
           <Router>
@@ -91,6 +101,7 @@ class App extends Component {
               <Route exact path='/' render={props => <HomePage {...props}/>} />
               <Route path='/form' render={props => <FormPage {...props}/>} />
               <Route path='/playerInfo' render={props => <PlayerInfoPage {...props}/>} />
+              <Route path='/friendsPage' render={props => <FriendsPage {...props}/>} />
             </Switch>
           </Router>
         </div>

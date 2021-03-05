@@ -1,0 +1,16 @@
+.friendsPage {
+    color: #333333;
+    background-color: #F9F9F9;
+    width: 100%;
+    /* height: 615px; */
+    height: calc(100% - 90px);
+    margin: 0 auto;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.friendsBody{
+    height: 800px;
+    overflow: auto;
+    margin-top:0px;
+    background-color: white;
+}
