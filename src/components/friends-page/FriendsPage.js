@@ -1,18 +1,15 @@
 import React, { Component } from 'react';
-import { searchPlayers } from '../../api/endpoints';
 import Context from '../../components/contexts/Context';
 import BackNavigator from "../back-navigator/BackNavigator";
-import ResponseHelper from '../Util/ResponseHelper.js';
-import {  validateUserInput } from '../Util/util';
 import Header from './../header/Header';
 import ErrorBanner from './../error-banner/ErrorBanner';
 import SubHeader from './../sub-header/SubHeader';
-import {
-    GAMER_ID, RESOURCE_NOT_AVAILABLE_CODE
-} from '../../models/Constants';
 import './FriendsPage.css';
 import Loading from '../Loading/Loading';
 import PlayerDetails from "../player-details/PlayerDetails";
+import {searchPlayers} from "../../api/endpoints";
+import {RESOURCE_NOT_AVAILABLE_CODE} from "../../models/Constants";
+import ResponseHelper from "../Util/ResponseHelper";
 
 
 class FriendsPage extends Component {
@@ -22,8 +19,7 @@ class FriendsPage extends Component {
         this.state = {
             searchInput: '',
             gamerId: this.props.gamerId,
-            PlayerInfo: this.props.playerInfo,
-            friendsList: [],
+            friendsList: this.props.friendsList,
             isLoading: true,
             showSearchModal: false,
             serviceDown: false,
@@ -37,29 +33,23 @@ class FriendsPage extends Component {
     }
 
 
-    /**
-     * This function used to Call the Fetch Rewards Management Service
-     */
     componentDidMount() {
-        // Search for Players
-        this.searchForPlayers(this.props.playerInfo);
+        this.searchForPlayers();
     }
 
     componentDidUpdate() {
         this.renderErrorMessage();
     }
 
-    searchForPlayers = (input) => {
-        //var inputType = validateUserInput(input);
-
-        //if(inputType === GAMER_ID){
+    searchForPlayers = () => {
+        let input = this.context.playerInfo;
         searchPlayers("READ", input).then(data =>{
             let gamId = data.gamerId;
             let friendsObject = data.friendsList;
             let errorObject = data.errorResponse;
 
             console.log("gamId: " + gamId);
-            console.log("friendsObject: " + JSON.stringify(data.friendsList));
+            console.log("friendsObject: " + JSON.stringify(friendsObject));
             console.log("errorResponse: " + JSON.stringify(data.errorResponse));
 
             if(errorObject){
@@ -84,7 +74,7 @@ class FriendsPage extends Component {
             }
             else{
                 //clearing context
-                console.log("setting context in friends page");
+                console.log("searchForPlayers SUCCESS");
                 this.context.setPlayerNotFound(false);
                 this.context.setServiceDown(false);
                 this.context.setFriendsList(friendsObject);
@@ -92,7 +82,7 @@ class FriendsPage extends Component {
                 this.setState(
                     {
                         isLoading: false,
-                        gamerId: input,
+                        gamerId: gamId,
                         friendsList: friendsObject,
                         serviceDown: false,
                         customerNotFound: false
@@ -114,7 +104,6 @@ class FriendsPage extends Component {
                 });
             }
         });
-        // }
     }
 
     /** This is function used to set error message value in state

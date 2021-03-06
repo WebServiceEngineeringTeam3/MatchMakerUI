@@ -123,8 +123,6 @@ export async function searchPlayers(crudType, playerInfo) {
         }
     };
 
-    console.log("json_string: " + json_string);
-
     // Building URL
     var url = domain + endpoint;
 
