@@ -172,15 +172,23 @@ class FriendsPage extends Component {
             // Loading Image while calling Fetch Service
             if (this.state.isLoading) return <Loading />;
 
-            return (
-                // To Show PlayerInfo
-                <PlayerDetails playerInfo={state.playerInfo}
-                               errorFlag={state.errorFlag}
-                               serviceDown={state.serviceDown}
-                               playerNotFound={state.playerNotFound}
-                               resetErrorFlg={this.setErrorFlag}>
-                </PlayerDetails>
-            );
+            let friendsArray = this.state.friendsList;
+            let children = [];
+            if(!!friendsArray){
+                for(let index = 0; index < friendsArray.length; index++ ){
+                   children.push(
+                       <PlayerDetails playerInfo={friendsArray[index]}
+                                      index={index}
+                                      checkbox={true}
+                                      errorFlag={state.errorFlag}
+                                      serviceDown={state.serviceDown}
+                                      playerNotFound={state.playerNotFound}
+                                      resetErrorFlg={this.setErrorFlag}>
+                       </PlayerDetails>
+                   );
+                }
+                return children;
+            }
         }
     }
 
@@ -200,7 +208,7 @@ class FriendsPage extends Component {
 
                             <div className="friendsBody">
                                 {this.renderErrorMessage()}
-                                {/*this.renderPlayerDetails()*/}
+                                {this.renderPlayerDetails()}
                                 <div className="clearDiv"></div>
 
                             </div>

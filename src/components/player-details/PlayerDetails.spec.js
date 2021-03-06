@@ -23,6 +23,19 @@ function getPlayerDetails(playerInfo) {
     )
 }
 
+function getPlayerDetailsWithCheckbox(playerInfo) {
+    return (
+        <PlayerDetails playerInfo={playerInfo}
+                       checkbox={true}
+                       index={0}
+                       errorFlag={false}
+                       serviceDown={false}
+                       playerNotFound={false}
+                       resetErrorFlg={jest.fn()}>
+        </PlayerDetails>
+    )
+}
+
 describe('PlayerDetails', () => {
     it('renders without crashing', () => {                      // our first test
         const { container } = render(                           // render our component under test
@@ -67,5 +80,9 @@ describe('PlayerDetails', () => {
     it('renders gameMode', () => {
         render(getPlayerDetails(playerInfo))
         screen.getByTestId("gameMode")
+    })
+    it('renders the checkbox if flag is true', () => {
+        render(getPlayerDetailsWithCheckbox(playerInfo))
+        screen.getByTestId("checkbox")
     })
 })
