@@ -14,3 +14,19 @@
     margin-top:0px;
     background-color: white;
 }
+
+.submit-button{
+    font-size: 20px;
+    border: 1px #CCCCCC;
+    background-color: #F9F9F9;
+    margin-left: 5%;
+    margin-top: 1%;
+}
+
+.button_disable{
+    color: #777777;
+}
+
+.button_enable{
+    color: #F96302;
+}

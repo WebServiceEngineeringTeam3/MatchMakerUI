@@ -7,7 +7,7 @@ import SubHeader from './../sub-header/SubHeader';
 import './FriendsPage.css';
 import Loading from '../Loading/Loading';
 import PlayerDetails from "../player-details/PlayerDetails";
-import {searchPlayers} from "../../api/endpoints";
+import {searchPlayers, addFriends} from "../../api/endpoints";
 import {RESOURCE_NOT_AVAILABLE_CODE} from "../../models/Constants";
 import ResponseHelper from "../Util/ResponseHelper";
 
@@ -18,13 +18,15 @@ class FriendsPage extends Component {
         super(props)
         this.state = {
             searchInput: '',
+            selectedFriends: [],
             gamerId: this.props.gamerId,
             friendsList: this.props.friendsList,
             isLoading: true,
             showSearchModal: false,
             serviceDown: false,
             playerNotFound: false,
-            errorFlag: false
+            errorFlag: false,
+            buttonCSS: 'button_disable'
         }
 
         this.setStateForModal = this.setStateForModal.bind(this);
@@ -85,7 +87,7 @@ class FriendsPage extends Component {
                         gamerId: gamId,
                         friendsList: friendsObject,
                         serviceDown: false,
-                        customerNotFound: false
+                        playerNotFound: false
                     });
             }
         }).catch(error => {
@@ -99,7 +101,7 @@ class FriendsPage extends Component {
             catch (err) {
                 this.setState({
                     serviceDown: true,
-                    customerNotFound: false,
+                    playerNotFound: false,
                     isLoading: false
                 });
             }
@@ -114,13 +116,13 @@ class FriendsPage extends Component {
         if ((errorResponse === "undefined" || errorResponse === null) || helper.servicedown(errorResponse)) {
             this.setState({
                 serviceDown: true,
-                customerNotFound: false,
+                playerNotFound: false,
                 isLoading: false
             });
         }
         else {
             this.setState({
-                customerNotFound: true,
+                playerNotFound: true,
                 serviceDown: false,
                 isLoading: false
             });
@@ -162,6 +164,30 @@ class FriendsPage extends Component {
     }
 
     /**
+     * This function is used to populate selectedPlayers array. If gamerId exists in array, then element will be removed.
+     * If element does not exist, then it will be added to array
+     */
+    handleSelectedFriends = (gamerId) =>{
+        let array = this.state.selectedFriends;
+        let indexResult = array.indexOf(gamerId);
+        if(indexResult >= 0){
+            array = array.filter(id => id !== gamerId)
+            this.setState({
+                selectedFriends: array
+            });
+        }
+        else{
+            array.push(gamerId);
+            this.setState({
+                selectedFriends: array
+            });
+        }
+        //If selectedPlayers array is populated then enable button, else disable it
+        if(array.length > 0){ this.setState({ buttonCSS: 'button_enable' }); }
+        else{ this.setState({ buttonCSS: 'button_disable' }); }
+    }
+
+    /**
      * This function is used to Show Player Information
      */
     renderPlayerDetails = () => {
@@ -183,6 +209,7 @@ class FriendsPage extends Component {
                                       errorFlag={state.errorFlag}
                                       serviceDown={state.serviceDown}
                                       playerNotFound={state.playerNotFound}
+                                      handleSelectedFriends={this.handleSelectedFriends}
                                       resetErrorFlg={this.setErrorFlag}>
                        </PlayerDetails>
                    );
@@ -190,6 +217,29 @@ class FriendsPage extends Component {
                 return children;
             }
         }
+    }
+
+    addFriendsToPlayerInfo = () =>{
+        addFriends(this.state.gamerId, this.state.selectedFriends).then(data =>{
+            console.log("data: " + JSON.stringify(data));
+            //Navigate back to Player Info Page if Added Friends Successfully
+            this.props.history.push({pathname: './playerInfo', state: {searchInput: this.state.gamerId}});
+        }).catch(error => {
+            console.log("ERROR ADDING FRIENDS " + error.message);
+            try {
+                let response = JSON.parse(error.message);
+                let errorResponse = response.errorResponse;
+                let helper = new ResponseHelper();
+                this.handleError(errorResponse, helper);
+            }
+            catch (err) {
+                this.setState({
+                    serviceDown: true,
+                    playerNotFound: false,
+                    isLoading: false
+                });
+            }
+        });
     }
 
     render() {
@@ -210,7 +260,7 @@ class FriendsPage extends Component {
                                 {this.renderErrorMessage()}
                                 {this.renderPlayerDetails()}
                                 <div className="clearDiv"></div>
-
+                                <div><button id="submit-button" className={this.state.buttonCSS + " submit-button disabled"} onClick={this.addFriendsToPlayerInfo}>Add Friends</button></div>
                             </div>
                         </div>
                     </div>

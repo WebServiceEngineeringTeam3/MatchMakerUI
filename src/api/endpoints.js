@@ -148,3 +148,37 @@ export async function searchPlayers(crudType, playerInfo) {
         return errorJson;
     }
 }
+
+/* This function is used to invoke addFriends endpoint in Match Maker Service
+ * @method  fetchPlayerInfo *
+ * @returns  {response object}*/
+export async function addFriends(gamerId, friendIds) {
+    console.time('addFriends');
+    const friend_ids_param = "&friend_ids=";
+    const endpoint = '/matchmaker/addFriends?player_id=';
+    const domain = MATCH_MAKER_DOMAIN;
+
+    // Building URL
+    var url = domain + endpoint + gamerId + friend_ids_param + friendIds;
+
+    const response = await fetch(url, {
+        method: 'put',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+        .catch(function (error) {
+            console.log("ERROR in MatchMakerService: " + error);
+        })
+
+    try{
+        const json = await response.json();
+        console.timeEnd('addFriends');
+        return json;
+    }
+    catch(error){
+        console.log("ERROR in addFriends method: " + error);
+        let errorJson = {gamerId:gamerId, playerInfo:{ gamerId: gamerId, firstName: null}, errorResponse:{ code: 503, message: "SERVICE UNAVAILABLE"}};
+        return errorJson;
+    }
+}

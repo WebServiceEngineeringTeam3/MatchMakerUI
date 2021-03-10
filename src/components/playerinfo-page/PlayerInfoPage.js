@@ -196,7 +196,30 @@ class PlayerInfoPage extends Component {
         }
     }
 
-    renderButton = () =>{
+    renderFriendsList = () => {
+
+        if ((!this.state.playerNotFound && !this.state.serviceDown)) {
+
+            // Loading Image while calling Fetch Service
+            if (this.state.isLoading) return <Loading />;
+
+            let friendsList = this.state.playerInfo.friendsList;
+            console.log("this.state.playerInfo.friendsList: " + this.state.playerInfo.friendsList);
+            if(friendsList && friendsList.length > 0){
+                return(
+                    <div>
+                        <h1>Friends List</h1>
+                        {friendsList}
+                    </div>
+                );
+            }
+            else{
+                return (<h3>You Have Not Added Friends</h3>);
+            }
+        }
+    }
+
+    renderSearchFriendsButton = () =>{
         return (
             <div>
                 <Link to="/friendsPage" data-testid="friendsButton">
@@ -223,7 +246,8 @@ class PlayerInfoPage extends Component {
                             <div className="playerInfoBody">
                                 {this.renderErrorMessage()}
                                 {this.renderPlayerDetails()}
-                                {this.renderButton()}
+                                {this.renderFriendsList()}
+                                {this.renderSearchFriendsButton()}
                                 <div className="clearDiv"></div>
 
                             </div>

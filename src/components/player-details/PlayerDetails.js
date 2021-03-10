@@ -10,9 +10,15 @@ class PlayerDetails extends Component {
         this.state = {
             playerInfo: this.props.playerInfo,
             checkbox: this.props.checkbox,
-            index: this.props.index
+            index: this.props.index,
+            handleSelectedFriends: this.props.handleSelectedFriends
         }
     }
+
+    handleSelection = () =>{
+        this.props.handleSelectedFriends(this.props.playerInfo.gamerId);
+    }
+
 
     render() {
 
@@ -21,7 +27,7 @@ class PlayerDetails extends Component {
         if(this.props.checkbox){
             return (
                 <div className="player-details-div">
-                    <input type="checkbox" id={"checkbox " + this.props.index} data-testid="checkbox"/><span>Name: </span><div className="player-details" data-testid="playerName">{playInfo.firstName} {playInfo.lastName}</div>
+                    <input type="checkbox" id={"checkbox " + this.props.index} data-testid="checkbox" onClick={this.handleSelection}/><span>Name: </span><div className="player-details" data-testid="playerName">{playInfo.firstName} {playInfo.lastName}</div>
                     <span>Age: </span><div className="player-details" data-testid="age">{playInfo.age} </div>
                     <span>Skill Level: </span><div className="player-details" data-testid="skillLevel">{playInfo.skillLevel} </div>
                     <span>Region: </span><div className="player-details" data-testid="region">{playInfo.region} </div>
