@@ -97,3 +97,88 @@ export async function postPlayer(crudType, gamerId, firstName, lastName, age, sk
     console.timeEnd('postCustomer');
     return json;
 }
+
+/* This function is used to make the call to MatchMakerService to search for potential players
+ * @method  searchPlayers *
+ * @returns  {response object}*/
+export async function searchPlayers(crudType, playerInfo) {
+    console.time('searchPlayers');
+    const endpoint = '/matchmaker/searchPlayers';
+    const domain = MATCH_MAKER_DOMAIN;
+
+    let json_string = {
+        "crudType": crudType,
+        "playerInfo": {
+            "firstName": playerInfo.firstName,
+            "game": playerInfo.game,
+            "gameMode": playerInfo.gameMode,
+            "gamerId": playerInfo.gamerId,
+            "language": playerInfo.language,
+            "lastName": playerInfo.lastName,
+            "age": playerInfo.age,
+            "minimumWaitTime": playerInfo.minimumWaitTime,
+            "personalityType": playerInfo.personalityType,
+            "region": playerInfo.region,
+            "skillLevel": playerInfo.skillLevel
+        }
+    };
+
+    // Building URL
+    var url = domain + endpoint;
+
+    const response = await fetch(url, {
+        method: 'post',
+        body: JSON.stringify(json_string),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+        .catch(function (error) {
+            console.log("ERROR in MatchMakerService: " + error);
+        })
+
+    try{
+        const json = await response.json();
+        console.timeEnd('searchPlayers');
+        return json;
+    }
+    catch(error){
+        console.log("ERROR in fetchPlayerInfo method: " + error);
+        let errorJson = {gamerId:playerInfo.gamerId, playerInfo:{ gamerId: playerInfo.gamerId, firstName: null}, errorResponse:{ code: 503, message: "SERVICE UNAVAILABLE"}};
+        return errorJson;
+    }
+}
+
+/* This function is used to invoke addFriends endpoint in Match Maker Service
+ * @method  fetchPlayerInfo *
+ * @returns  {response object}*/
+export async function addFriends(gamerId, friendIds) {
+    console.time('addFriends');
+    const friend_ids_param = "&friend_ids=";
+    const endpoint = '/matchmaker/addFriends?player_id=';
+    const domain = MATCH_MAKER_DOMAIN;
+
+    // Building URL
+    var url = domain + endpoint + gamerId + friend_ids_param + friendIds;
+
+    const response = await fetch(url, {
+        method: 'put',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+        .catch(function (error) {
+            console.log("ERROR in MatchMakerService: " + error);
+        })
+
+    try{
+        const json = await response.json();
+        console.timeEnd('addFriends');
+        return json;
+    }
+    catch(error){
+        console.log("ERROR in addFriends method: " + error);
+        let errorJson = {gamerId:gamerId, playerInfo:{ gamerId: gamerId, firstName: null}, errorResponse:{ code: 503, message: "SERVICE UNAVAILABLE"}};
+        return errorJson;
+    }
+}

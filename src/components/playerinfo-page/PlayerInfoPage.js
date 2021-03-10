@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { fetchPlayerInfo } from '../../api/endpoints';
+import {fetchPlayerInfo} from '../../api/endpoints';
 import Context from '../../components/contexts/Context';
 import BackNavigator from "../back-navigator/BackNavigator";
 import ResponseHelper from '../Util/ResponseHelper.js';
@@ -13,7 +13,7 @@ import {
 import './PlayerInfoPage.css';
 import Loading from '../Loading/Loading';
 import PlayerDetails from "../player-details/PlayerDetails";
-
+import {Link} from "react-router-dom";
 
 class PlayerInfoPage extends Component {
 
@@ -22,7 +22,7 @@ class PlayerInfoPage extends Component {
         this.state = {
             searchInput: '',
             gamerId: this.props.gamerId,
-            PlayerInfo: this.props.playerInfo,
+            playerInfo: this.props.playerInfo,
             isLoading: true,
             showSearchModal: false,
             serviceDown: false,
@@ -37,7 +37,7 @@ class PlayerInfoPage extends Component {
 
 
     /**
-     * This function used to Call the Fetch Rewards Management Service
+     * This function used to Call the retrieve player info from Match Maker Service
      */
     componentDidMount() {
         // Fetch Details
@@ -83,7 +83,7 @@ class PlayerInfoPage extends Component {
                 }
                 else{
                     //clearing context
-                    console.log("setting context in player info page");
+                    console.log("retrievePlayerInfo SUCCESS");
                     this.context.setSearchedInput(input);
                     this.context.setGamerId(input);
                     this.context.setPlayerInfo(playerObject);
@@ -196,6 +196,39 @@ class PlayerInfoPage extends Component {
         }
     }
 
+    renderFriendsList = () => {
+
+        if ((!this.state.playerNotFound && !this.state.serviceDown)) {
+
+            // Loading Image while calling Fetch Service
+            if (this.state.isLoading) return <Loading />;
+
+            let friendsList = this.state.playerInfo.friendsList;
+            console.log("this.state.playerInfo.friendsList: " + this.state.playerInfo.friendsList);
+            if(friendsList && friendsList.length > 0){
+                return(
+                    <div>
+                        <h1>Friends List</h1>
+                        {friendsList}
+                    </div>
+                );
+            }
+            else{
+                return (<h3>You Have Not Added Friends</h3>);
+            }
+        }
+    }
+
+    renderSearchFriendsButton = () =>{
+        return (
+            <div>
+                <Link to="/friendsPage" data-testid="friendsButton">
+                    <button type="button" className={"button btnContainer addPlayerButton "+(this.state.showSearchModal ? 'hide': '')}>Search Friends</button>
+                </Link>
+                </div>
+        );
+    }
+
     render() {
         return (
             <Context.Consumer>
@@ -213,6 +246,8 @@ class PlayerInfoPage extends Component {
                             <div className="playerInfoBody">
                                 {this.renderErrorMessage()}
                                 {this.renderPlayerDetails()}
+                                {this.renderFriendsList()}
+                                {this.renderSearchFriendsButton()}
                                 <div className="clearDiv"></div>
 
                             </div>
