@@ -1,7 +1,5 @@
 import React from 'react'
-import { screen } from '@testing-library/dom'
-import { render } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
+import { render, screen } from '@testing-library/react'
 import FormPage from './FormPage'
 import {Router} from "react-router-dom";
 import Context from "../contexts/Context";

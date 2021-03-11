@@ -1,6 +1,5 @@
 import React from 'react'                               // we always need React when testing React components
-import { screen } from '@testing-library/dom'           // screen provides many query functions
-import { render } from '@testing-library/react'  
+import { render, screen } from '@testing-library/react'  
 import ErrorBanner from './ErrorBanner'
 
 const customerId = "TXN8943"

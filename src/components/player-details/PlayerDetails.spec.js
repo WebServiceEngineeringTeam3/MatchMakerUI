@@ -1,7 +1,5 @@
 import React from 'react'                               // we always need React when testing React components
-import { screen } from '@testing-library/dom'           // screen provides many query functions
-import { render } from '@testing-library/react'         // render the component under test
-import userEvent from '@testing-library/user-event'
+import { render, screen } from '@testing-library/react'         // render the component under test
 import PlayerDetails from './PlayerDetails'
 import dataSet from '../../mock-utils/MockPlayerInfo'         // we will use data from this dataSet to test our component
 

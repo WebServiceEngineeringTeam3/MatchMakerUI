@@ -1,7 +1,6 @@
 import React from 'react'
-import { screen } from '@testing-library/dom'
-import { render } from '@testing-library/react'
-import Homepage from './Homepage'
+import { render, screen } from "@testing-library/react";
+import Homepage from './HomePage'
 import Context from '../contexts/Context'
 import { createMemoryHistory } from 'history'
 import userEvent from '@testing-library/user-event'
@@ -55,9 +54,9 @@ describe('Homepage', () => {
         screen.getByTestId("searchBox")                      
     })
     it('renders Search Modal when search box has been clicked', async () => {                        
-    	const { container } = render(getHomepage())
-        const searchBox = await screen.getByTestId("searchBox") //needs await bc of var assignment
+    	render(getHomepage())
+        const searchBox = screen.getByTestId("searchBox")
         userEvent.click(searchBox) // click the link to change route
-        screen.findByText('Search')             
+        await screen.findByText('Search')             
     })
 })

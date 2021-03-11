@@ -1,6 +1,5 @@
 import React from 'react'                               // we always need React when testing React components
-import { screen } from '@testing-library/dom'           // screen provides many query functions
-import { render } from '@testing-library/react'         // render the component under test
+import { render, screen } from '@testing-library/react'         // render the component under test
 import SearchForm from './SearchForm'
 import Context from '../contexts/Context'
 import userEvent from '@testing-library/user-event'
@@ -48,13 +47,13 @@ describe('SearchForm', () => {
         screen.getByTestId("searchButton")                      
     })
     it('renders homepage when back arrow has been clicked', async () => {                        
-    	const { container } = render(getSearchForm())
+    	render(getSearchForm())
         const backArrow = await screen.getByTestId("backArrow") //needs await bc of var assignment
         userEvent.click(backArrow) // click the link to change route
         screen.findByText(APP_TITLE)
     })
     it('renders matchmaking page when typing player id and clicking on search button', async () => {
-    	const { container } = render(getSearchForm())
+    	render(getSearchForm())
         const searchButton = await screen.getByTestId("searchButton")
         const searchTextbox = await screen.getByTestId("searchTextbox")
         userEvent.type(searchTextbox, playerId, { allAtOnce: true })

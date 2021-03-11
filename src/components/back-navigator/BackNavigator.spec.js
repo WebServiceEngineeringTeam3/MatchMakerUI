@@ -1,6 +1,5 @@
 import React from 'react'
-import { screen } from '@testing-library/dom'
-import { render } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import BackNavigator from './BackNavigator'
 import { APP_TITLE } from '../../models/Constants'

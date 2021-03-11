@@ -21,7 +21,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test --verbose",
     "eject": "react-scripts eject",
-    "ci-test": "react-scripts test --env=jsdom --coverage --testResultsProcessor=jest-teamcity-reporter --watch a",
+    "ci-test": "react-scripts test --env=jsdom --coverage --testResultsProcessor=jest-teamcity-reporter --watchAll=false --runInBand --detectOpenHandles",
     "coverage": "react-scripts test --verbose --coverage"
   },
   "devDependencies": {
