@@ -5,6 +5,7 @@ import Context from '../../components/contexts/Context'
 import FormPage from '../../components/form-page/FormPage'
 import PlayerInfoPage from "../playerinfo-page/PlayerInfoPage";
 import FriendsPage from "../friends-page/FriendsPage";
+import SearchFriendsPage from "../search-friends-page/SearchFriendsPage";
 
 class App extends Component {
   constructor(props) {
@@ -101,6 +102,7 @@ class App extends Component {
               <Route exact path='/' render={props => <HomePage {...props}/>} />
               <Route path='/form' render={props => <FormPage {...props}/>} />
               <Route path='/playerInfo' render={props => <PlayerInfoPage {...props}/>} />
+              <Route path='/searchFriendsPage' render={props => <SearchFriendsPage {...props}/>} />
               <Route path='/friendsPage' render={props => <FriendsPage {...props}/>} />
             </Switch>
           </Router>

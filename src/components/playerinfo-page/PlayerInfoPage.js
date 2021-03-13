@@ -206,10 +206,20 @@ class PlayerInfoPage extends Component {
             let friendsList = this.state.playerInfo.friendsList;
             console.log("this.state.playerInfo.friendsList: " + this.state.playerInfo.friendsList);
             if(friendsList && friendsList.length > 0){
+                let children = [];
+                if(!!friendsList){
+                    for(let index = 0; index < friendsList.length; index++ ){
+                        children.push(
+                            <div className='friendsList'>{friendsList[index]}</div>
+                        );
+                    }
+                }
                 return(
                     <div>
-                        <h1>Friends List</h1>
-                        {friendsList}
+                        <h1 className='friendsListTitle'>Friends List</h1>
+                        <div className='friendsList'>
+                            {children}
+                        </div>
                     </div>
                 );
             }
@@ -222,7 +232,7 @@ class PlayerInfoPage extends Component {
     renderSearchFriendsButton = () =>{
         return (
             <div>
-                <Link to="/friendsPage" data-testid="friendsButton">
+                <Link to="/searchFriendsPage" data-testid="friendsButton">
                     <button type="button" className={"button btnContainer addPlayerButton "+(this.state.showSearchModal ? 'hide': '')}>Search Friends</button>
                 </Link>
                 </div>

@@ -99,36 +99,18 @@ export async function postPlayer(crudType, gamerId, firstName, lastName, age, sk
 }
 
 /* This function is used to make the call to MatchMakerService to search for potential players
- * @method  searchPlayers *
+ * @method  search *
  * @returns  {response object}*/
-export async function searchPlayers(crudType, playerInfo) {
-    console.time('searchPlayers');
-    const endpoint = '/matchmaker/searchPlayers';
+export async function search(skillLevel, personalityType, preferredGame){
+    console.time('search');
+    const endpoint = '/matchmaker/search?skill_level=';
     const domain = MATCH_MAKER_DOMAIN;
 
-    let json_string = {
-        "crudType": crudType,
-        "playerInfo": {
-            "firstName": playerInfo.firstName,
-            "game": playerInfo.game,
-            "gameMode": playerInfo.gameMode,
-            "gamerId": playerInfo.gamerId,
-            "language": playerInfo.language,
-            "lastName": playerInfo.lastName,
-            "age": playerInfo.age,
-            "minimumWaitTime": playerInfo.minimumWaitTime,
-            "personalityType": playerInfo.personalityType,
-            "region": playerInfo.region,
-            "skillLevel": playerInfo.skillLevel
-        }
-    };
-
     // Building URL
-    var url = domain + endpoint;
+    var url = domain + endpoint + skillLevel + "&personality_type=" + personalityType + "&preferred_game=" + preferredGame;
 
     const response = await fetch(url, {
-        method: 'post',
-        body: JSON.stringify(json_string),
+        method: 'get',
         headers: {
             'Content-Type': 'application/json'
         }
@@ -139,12 +121,12 @@ export async function searchPlayers(crudType, playerInfo) {
 
     try{
         const json = await response.json();
-        console.timeEnd('searchPlayers');
+        console.timeEnd('search');
         return json;
     }
     catch(error){
-        console.log("ERROR in fetchPlayerInfo method: " + error);
-        let errorJson = {gamerId:playerInfo.gamerId, playerInfo:{ gamerId: playerInfo.gamerId, firstName: null}, errorResponse:{ code: 503, message: "SERVICE UNAVAILABLE"}};
+        console.log("ERROR in search method: " + error);
+        let errorJson = {errorResponse:{ code: 503, message: "SERVICE UNAVAILABLE"}};
         return errorJson;
     }
 }
@@ -172,13 +154,14 @@ export async function addFriends(gamerId, friendIds) {
         })
 
     try{
-        const json = await response.json();
+        const httpStatus = await response.status;
+        console.log("httpStatus: " + httpStatus);
         console.timeEnd('addFriends');
-        return json;
+        return httpStatus;
     }
     catch(error){
         console.log("ERROR in addFriends method: " + error);
-        let errorJson = {gamerId:gamerId, playerInfo:{ gamerId: gamerId, firstName: null}, errorResponse:{ code: 503, message: "SERVICE UNAVAILABLE"}};
-        return errorJson;
+        let errorStatus = 500;
+        return errorStatus;
     }
 }
