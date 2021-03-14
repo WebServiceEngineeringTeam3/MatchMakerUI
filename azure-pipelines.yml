@@ -9,36 +9,24 @@ trigger:
 pool:
   vmImage: ubuntu-latest
 
+
+variables:
+  imageName: 'Match-Maker-UI'
+
 steps:
-- task: NodeTool@0
+- task: Docker@2
+  displayName: Build an image
   inputs:
-    versionSpec: '10.x'
-  displayName: 'Install Node.js'
+    repository: $(imageName)
+    command: build
+    Dockerfile: app/Dockerfile
 
-- script: |
-    npm install
-    npm run build
-  displayName: 'npm install and build'
-
-- task: ArchiveFiles@2
+- task: Docker@2
+  displayName: Push image
   inputs:
-    rootFolderOrFile: '$(Build.BinariesDirectory)'
-    includeRootFolder: true
-    archiveType: 'zip'
-    archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
-    replaceExistingArchive: true
-
-- task: PublishBuildArtifacts@1
-  inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    ArtifactName: 'drop'
-    publishLocation: 'Container'
-- task: AzureRmWebAppDeployment@4
-  inputs:
-    ConnectionType: 'AzureRM'
-    azureSubscription: 'Azure subscription 1(c1b81091-e68e-44f7-bd5c-cb04d0be348d)'
-    appType: 'webAppLinux'
-    WebAppName: 'matchmakerksu'
-    packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
-    RuntimeStack: 'NODE|12-lts'
-    StartupCommand: 'npm run start'
+    containerRegistry: |
+      $(dockerHub)
+    repository: $(imageName)
+    command: push
+    tags: |
+      test
