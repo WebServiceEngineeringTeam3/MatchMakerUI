@@ -16,6 +16,7 @@ steps:
 #     Dockerfile: app/Dockerfile
 - task: Docker@2
   inputs:
-    repository: $(imageName)
     command: 'buildAndPush'
+    repository: $(imageName)
+    containerRegistry: $(dockerRegistryServiceConnection)
     Dockerfile: '**/Dockerfile'
