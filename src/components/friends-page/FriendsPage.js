@@ -5,10 +5,8 @@ import Header from './../header/Header';
 import ErrorBanner from './../error-banner/ErrorBanner';
 import SubHeader from './../sub-header/SubHeader';
 import './FriendsPage.css';
-import Loading from '../Loading/Loading';
 import PlayerDetails from "../player-details/PlayerDetails";
-import {searchPlayers, addFriends, search} from "../../api/endpoints";
-import {RESOURCE_NOT_AVAILABLE_CODE} from "../../models/Constants";
+import {addFriends} from "../../api/endpoints";
 import ResponseHelper from "../Util/ResponseHelper";
 
 
