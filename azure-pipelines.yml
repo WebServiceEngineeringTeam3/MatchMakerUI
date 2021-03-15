@@ -6,12 +6,14 @@ pool:
 
 variables:
     imageName: 'MatchMakerUI'
-
+    
 steps:
 - task: Docker@2
   inputs:
     command: 'buildAndPush'
     repository: $(imageName)
-    containerRegistry: |
-      $(dockerHub)
+    containerRegistry: AzureContainerRegistry
     Dockerfile: '**/Dockerfile'
+    tags: |
+      $(Build.BuildId)
+      latest
