@@ -6,6 +6,11 @@ jobs:
     steps:
     - name: 'Checkout Github Action' 
       uses: actions/checkout@master
+
+    - name: Run Tests
+      run: |
+        yarn
+        yarn ci-test
     
     - name: 'Login via Azure CLI'
       uses: azure/login@v1
