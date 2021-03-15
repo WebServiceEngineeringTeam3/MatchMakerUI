@@ -4,14 +4,13 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
 
 trigger:
-- main
+- CICD-Pipeline
 
 pool:
   vmImage: ubuntu-latest
 
-
 variables:
-  imageName: 'Match-Maker-UI'
+    imageName: 'pipelines-javascript-docker'
 
 steps:
 - task: Docker@2
@@ -20,13 +19,3 @@ steps:
     repository: $(imageName)
     command: build
     Dockerfile: app/Dockerfile
-
-- task: Docker@2
-  displayName: Push image
-  inputs:
-    containerRegistry: |
-      $(dockerHub)
-    repository: $(imageName)
-    command: push
-    tags: |
-      test
