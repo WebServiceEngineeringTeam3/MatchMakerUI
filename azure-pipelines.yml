@@ -6,11 +6,12 @@ pool:
 
 variables:
     imageName: 'MatchMakerUI'
+    cr: 'testscartechcr.azurecr.io'
 
 steps:
 - task: Docker@2
   inputs:
     command: 'buildAndPush'
     repository: $(imageName)
-    containerRegistry: $(dockerRegistryServiceConnection)
+    containerRegistry: $(cr)
     Dockerfile: '**/Dockerfile'
