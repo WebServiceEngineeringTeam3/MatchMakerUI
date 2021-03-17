@@ -166,6 +166,10 @@ class FriendsPage extends Component {
         });
     }
 
+    navigateToPlayerInfoPage = () =>{
+        this.props.history.push({pathname: './playerInfo'});
+    }
+
     render() {
         return (
             <Context.Consumer>
@@ -185,6 +189,8 @@ class FriendsPage extends Component {
                                 {this.renderPlayerDetails()}
                                 <div className="clearDiv"></div>
                                 <div><button id="submit-button" className={this.state.buttonCSS + " submit-button disabled"} onClick={this.addFriendsToPlayerInfo}>Add Friends</button></div>
+                                <div data-testid="cancel-button"><button id="cancel-button" className="cancel-button"
+                                                                         onClick={this.navigateToPlayerInfoPage}>Cancel</button></div>
                             </div>
                         </div>
                     </div>

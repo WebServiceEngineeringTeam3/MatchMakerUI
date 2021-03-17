@@ -142,6 +142,10 @@ class SearchFriendsPage extends Component {
         }
     }
 
+    navigateToPlayerInfoPage = () =>{
+        this.props.history.push({pathname: './playerInfo'});
+    }
+
     render() {
         return (
             <Context.Consumer>
@@ -222,6 +226,8 @@ class SearchFriendsPage extends Component {
                             >
                                 Submit
                             </button>
+                            <div data-testid="cancel-button"><button id="cancel-button" className="cancel-button"
+                                                                onClick={this.navigateToPlayerInfoPage}>Cancel</button></div>
                         </div>
                     </div>
                 )}
