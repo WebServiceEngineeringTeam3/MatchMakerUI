@@ -14,6 +14,8 @@ import './PlayerInfoPage.css';
 import Loading from '../Loading/Loading';
 import PlayerDetails from "../player-details/PlayerDetails";
 import {Link} from "react-router-dom";
+import FriendInfo from "../friend-info/FriendInfo";
+import FriendID from "../friend-id/FriendID";
 
 class PlayerInfoPage extends Component {
 
@@ -27,7 +29,8 @@ class PlayerInfoPage extends Component {
             showSearchModal: false,
             serviceDown: false,
             playerNotFound: false,
-            errorFlag: false
+            errorFlag: false,
+            friendId: ''
         }
 
         this.setStateForModal = this.setStateForModal.bind(this);
@@ -196,6 +199,24 @@ class PlayerInfoPage extends Component {
         }
     }
 
+    setPlayerModal = (friendId) =>{
+        console.log("setPlayerModal: " + friendId);
+        //this.context.setPlayerModal(true);
+        this.setState({
+            friendId: friendId
+        });
+        this.renderFriendInfo(friendId);
+    }
+
+    renderFriendInfo = (friendId) => {
+       // if(this.context.showPlayerModal === true){
+        console.log("renderFriendInfo: " + friendId);
+        this.context.setFriendId(friendId);
+        this.props.history.push({pathname: './friendInfo', state: {friendId: friendId}});
+           // return(<FriendInfo friendId={friendId}/>);
+       // }
+    }
+
     renderFriendsList = () => {
 
         if ((!this.state.playerNotFound && !this.state.serviceDown)) {
@@ -210,7 +231,7 @@ class PlayerInfoPage extends Component {
                 if(!!friendsList){
                     for(let index = 0; index < friendsList.length; index++ ){
                         children.push(
-                            <div className='friendsList'>{friendsList[index]}</div>
+                            <FriendID friendId={friendsList[index]} setPlayerModal={this.setPlayerModal}/>
                         );
                     }
                 }

@@ -1,5 +1,5 @@
 //Domain
-export const MATCH_MAKER_DOMAIN = "https://ksumatchmakerservice.azurewebsites.net";
+export const MATCH_MAKER_DOMAIN = "https://matchmakerservice-r34govutlq-ue.a.run.app";
 
 export const APP_TITLE = "MatchMaker";
 export const HOME_PAGE_LABEL = "Enter Player ID";

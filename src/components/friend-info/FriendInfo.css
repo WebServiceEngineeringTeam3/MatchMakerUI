@@ -1,0 +1,100 @@
+.friend-info-modal{
+    width: 80%;
+    background-color: white;
+    top: 22%;
+    position: relative;
+    z-index: 1;
+    height: 15em;
+    overflow: hidden;
+}
+
+.friend-info-modal-container{
+    display: flex;
+    justify-content: center;
+    width:100%;
+    height:100%;
+    z-index: 3;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+.look-up-store-modal-container.row {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}
+
+.look-up-store-modal-container .col {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+.friend-info-label{
+    font-weight: 500;
+    font-size: 1.5em;
+    text-align: center;
+}
+
+.look-up-store-label-text{
+    font-size: 1.1em;
+}
+
+.look-up-storebox {
+    width: 96%;
+    height: 2em;
+    font-size: 1.2em;
+    border: 2px solid #CCCCCC;
+}
+
+.look-up-storebox-error{
+    width: 96%;
+    height: 2em;
+    font-size: 1.2em;
+    border: 2px solid #ED1C24;
+    background-color: #FEF2F2;
+    color: #ED1C24;
+}
+
+.label-input-box{
+    /* margin: 5% 7% 0% 7%; */
+    background-color: white;
+}
+
+.error-store-message {
+    min-height: 2em;
+    width: 100%;
+    color: #ED1C24;
+}
+
+.look-up-store-button_disable{
+    color: #777777;
+}
+
+.look-up-store-button_enable{
+    color: #F96302;
+}
+
+.lookup_button {
+    box-shadow: 0 0 2px 0 rgba(0,0,0,.12), 0 1px 2px 0 rgba(0,0,0,.24);
+    text-transform: capitalize;
+    display: inline-block;
+    text-decoration: none;
+    border: none;
+    border-radius: 0.125rem;
+    font-weight: 600;
+    text-align: center;
+    outline: 0;
+    letter-spacing: 0;
+    cursor: pointer;
+    width: 43%;
+    height: 3em;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 1em;
+}
+
+.lookup_cancel_button {
+    color: #f96302;
+    background-color: #fbfbfb;
+    border: 1px solid #f96302;
+}
