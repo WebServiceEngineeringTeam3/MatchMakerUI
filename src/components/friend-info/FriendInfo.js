@@ -93,6 +93,10 @@ class FriendInfo extends Component {
         if (this.state.isLoading) return <Loading />;
     }
 
+    navigateToPlayerInfoPage = () =>{
+        this.props.history.push({pathname: './playerInfo'});
+    }
+
     render() {
         return (
             <Context.Consumer>
@@ -108,6 +112,8 @@ class FriendInfo extends Component {
                         >
                         </PlayerDetails>
                         {this.renderErrorMessage()}
+                        <div data-testid="okButton"><button id="ok_button" className="ok_button"
+                                                                onClick={this.navigateToPlayerInfoPage}>OK</button></div>
                     </div>
                 )}
             </Context.Consumer>

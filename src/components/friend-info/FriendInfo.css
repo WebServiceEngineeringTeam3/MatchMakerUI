@@ -98,3 +98,12 @@
     background-color: #fbfbfb;
     border: 1px solid #f96302;
 }
+
+.ok_button{
+    font-size: 20px;
+    border: 1px #CCCCCC;
+    background-color: #F9F9F9;
+    margin-left: 10px;
+    margin-top: 5px;
+    color: #F96302;
+}
