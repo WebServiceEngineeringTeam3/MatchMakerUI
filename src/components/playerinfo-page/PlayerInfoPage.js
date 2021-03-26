@@ -15,6 +15,7 @@ import Loading from '../Loading/Loading';
 import PlayerDetails from "../player-details/PlayerDetails";
 import {Link} from "react-router-dom";
 import FriendID from "../friend-id/FriendID";
+import GroupFriendID from "../group-friend-id/GroupFriendID";
 
 class PlayerInfoPage extends Component {
 
@@ -245,6 +246,39 @@ class PlayerInfoPage extends Component {
         }
     }
 
+    renderGroupsList = () => {
+
+        if ((!this.state.playerNotFound && !this.state.serviceDown)) {
+
+            // Loading Image while calling Fetch Service
+            if (this.state.isLoading) return <Loading />;
+
+            let groupsList = this.state.playerInfo.groupsList;
+            console.log("this.state.playerInfo.groupsList: " + this.state.playerInfo.groupsList);
+            if(groupsList && groupsList.length > 0){
+                let children = [];
+                if(!!groupsList){
+                    for(let index = 0; index < groupsList.length; index++ ){
+                        children.push(
+                            <GroupFriendID groupFriend={groupsList[index]} setPlayerModal={this.setPlayerModal}/>
+                        );
+                    }
+                }
+                return(
+                    <div>
+                        <h1 className='friendsListTitle'>Groups List</h1>
+                        <div className='friendsList'>
+                            {children}
+                        </div>
+                    </div>
+                );
+            }
+            else{
+                return (<h3>You Have Not Added Groups</h3>);
+            }
+        }
+    }
+
     renderSearchFriendsButton = () =>{
         return (
             <div>
@@ -273,6 +307,7 @@ class PlayerInfoPage extends Component {
                                 {this.renderErrorMessage()}
                                 {this.renderPlayerDetails()}
                                 {this.renderFriendsList()}
+                                {this.renderGroupsList()}
                                 {this.renderSearchFriendsButton()}
                                 <div className="clearDiv"></div>
 
