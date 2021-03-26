@@ -5,6 +5,8 @@ import Context from '../../components/contexts/Context'
 import FormPage from '../../components/form-page/FormPage'
 import PlayerInfoPage from "../playerinfo-page/PlayerInfoPage";
 import FriendsPage from "../friends-page/FriendsPage";
+import SearchFriendsPage from "../search-friends-page/SearchFriendsPage";
+import FriendInfo from "../friend-info/FriendInfo";
 
 class App extends Component {
   constructor(props) {
@@ -19,7 +21,9 @@ class App extends Component {
       isLoading: true,
       serviceDown: false,
       playerNotFound: false,
-        playerFound: false
+        playerFound: false,
+        showPlayerModal: false,
+        friendId: ''
     }
   }
 
@@ -76,6 +80,18 @@ class App extends Component {
         });
     }
 
+    setPlayerModal = (value) => {
+      this.setState({
+          showPlayerModal: value
+      });
+    }
+
+    setFriendId = (value) => {
+        this.setState({
+            friendId: value
+        });
+    }
+
 
   render = () => (
 
@@ -93,7 +109,11 @@ class App extends Component {
           playerFound: this.state.playerNotFound,
           setPlayerFound: this.setPlayerNotFound,
           friendsList: this.state.friendsList,
-          setFriendsList: this.setFriendsList
+          setFriendsList: this.setFriendsList,
+          showPlayerModal: this.state.showPlayerModal,
+          setPlayerModal: this.setPlayerModal,
+          friendId: this.state.friendId,
+          setFriendId: this.setFriendId
       }}>
         <div className='application-container'>
           <Router>
@@ -101,7 +121,9 @@ class App extends Component {
               <Route exact path='/' render={props => <HomePage {...props}/>} />
               <Route path='/form' render={props => <FormPage {...props}/>} />
               <Route path='/playerInfo' render={props => <PlayerInfoPage {...props}/>} />
+              <Route path='/searchFriendsPage' render={props => <SearchFriendsPage {...props}/>} />
               <Route path='/friendsPage' render={props => <FriendsPage {...props}/>} />
+              <Route path='/friendInfo' render={props => <FriendInfo {...props}/>} />
             </Switch>
           </Router>
         </div>

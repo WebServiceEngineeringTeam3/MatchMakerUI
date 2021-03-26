@@ -14,6 +14,7 @@ import './PlayerInfoPage.css';
 import Loading from '../Loading/Loading';
 import PlayerDetails from "../player-details/PlayerDetails";
 import {Link} from "react-router-dom";
+import FriendID from "../friend-id/FriendID";
 
 class PlayerInfoPage extends Component {
 
@@ -27,7 +28,8 @@ class PlayerInfoPage extends Component {
             showSearchModal: false,
             serviceDown: false,
             playerNotFound: false,
-            errorFlag: false
+            errorFlag: false,
+            friendId: ''
         }
 
         this.setStateForModal = this.setStateForModal.bind(this);
@@ -196,6 +198,20 @@ class PlayerInfoPage extends Component {
         }
     }
 
+    setPlayerModal = (friendId) =>{
+        console.log("setPlayerModal: " + friendId);
+        this.setState({
+            friendId: friendId
+        });
+        this.renderFriendInfo(friendId);
+    }
+
+    renderFriendInfo = (friendId) => {
+        console.log("renderFriendInfo: " + friendId);
+        this.context.setFriendId(friendId);
+        this.props.history.push({pathname: './friendInfo', state: {friendId: friendId}});
+    }
+
     renderFriendsList = () => {
 
         if ((!this.state.playerNotFound && !this.state.serviceDown)) {
@@ -206,10 +222,20 @@ class PlayerInfoPage extends Component {
             let friendsList = this.state.playerInfo.friendsList;
             console.log("this.state.playerInfo.friendsList: " + this.state.playerInfo.friendsList);
             if(friendsList && friendsList.length > 0){
+                let children = [];
+                if(!!friendsList){
+                    for(let index = 0; index < friendsList.length; index++ ){
+                        children.push(
+                            <FriendID friendId={friendsList[index]} setPlayerModal={this.setPlayerModal}/>
+                        );
+                    }
+                }
                 return(
                     <div>
-                        <h1>Friends List</h1>
-                        {friendsList}
+                        <h1 className='friendsListTitle'>Friends List</h1>
+                        <div className='friendsList'>
+                            {children}
+                        </div>
                     </div>
                 );
             }
@@ -222,7 +248,7 @@ class PlayerInfoPage extends Component {
     renderSearchFriendsButton = () =>{
         return (
             <div>
-                <Link to="/friendsPage" data-testid="friendsButton">
+                <Link to="/searchFriendsPage" data-testid="friendsButton">
                     <button type="button" className={"button btnContainer addPlayerButton "+(this.state.showSearchModal ? 'hide': '')}>Search Friends</button>
                 </Link>
                 </div>
