@@ -4,26 +4,29 @@ import BackNavigator from "../back-navigator/BackNavigator";
 import Header from './../header/Header';
 import ErrorBanner from './../error-banner/ErrorBanner';
 import SubHeader from './../sub-header/SubHeader';
-import './FriendsPage.css';
+import './GroupsPage.css';
 import PlayerDetails from "../player-details/PlayerDetails";
-import {addFriends} from "../../api/endpoints";
+import {gamerFriendsInfo, postGroup} from "../../api/endpoints";
 import ResponseHelper from "../Util/ResponseHelper";
+import {validateForAlphaNumericInput} from "../Util/util";
 
 
-class FriendsPage extends Component {
+class GroupsPage extends Component {
 
     constructor(props) {
         super(props)
         this.state = {
             searchInput: '',
             selectedFriends: [],
+            completeInfoFriendsList: [{}],
             gamerId: this.props.gamerId,
             isLoading: true,
             showSearchModal: false,
             serviceDown: false,
             playerNotFound: false,
             errorFlag: false,
-            buttonCSS: 'button_disable'
+            buttonCSS: 'button_disable',
+            groupName: ''
         }
 
         this.setStateForModal = this.setStateForModal.bind(this);
@@ -31,8 +34,50 @@ class FriendsPage extends Component {
         this.setErrorFlag = this.setErrorFlag.bind(this);
     }
 
+    componentDidMount() {
+        //Fetch Gamer Friends Full Info
+        this.retrieveGamerFriendsInfo(this.context.playerInfo.friendsList.join());
+    }
+
     componentDidUpdate() {
         this.renderErrorMessage();
+    }
+
+    retrieveGamerFriendsInfo = (input) => {
+        gamerFriendsInfo(input).then(data => {
+            let completeInfoFriendsList = data.completeInfoFriendsList;
+
+            console.log("completeInfoFriendsList: " + JSON.stringify(completeInfoFriendsList));
+
+                    //clearing context
+                    console.log("retrieveGamerFriendsInfo SUCCESS");
+                    this.context.setCompleteInfoFriendsList(completeInfoFriendsList);
+                    this.context.setPlayerNotFound(false);
+                    this.context.setServiceDown(false);
+
+                    this.setState(
+                        {
+                            isLoading: false,
+                            completeInfoFriendsList: completeInfoFriendsList,
+                            serviceDown: false,
+                            playerNotFound: false
+                        });
+            }).catch(error => {
+                console.log("ERROR FETCHING GAMER FRIENDS INFO " + error.message);
+                try {
+                    let response = JSON.parse(error.message);
+                    let errorResponse = response.errorResponse;
+                    let helper = new ResponseHelper();
+                    this.handleError(errorResponse, helper);
+                }
+                catch (err) {
+                    this.setState({
+                        serviceDown: true,
+                        customerNotFound: false,
+                        isLoading: false
+                    });
+                }
+            });
     }
 
     /** This is function used to set error message value in state
@@ -110,9 +155,31 @@ class FriendsPage extends Component {
             });
         }
         //If selectedPlayers array is populated then enable button, else disable it
-        if(array.length > 0){ this.setState({ buttonCSS: 'button_enable' }); }
-        else{ this.setState({ buttonCSS: 'button_disable' }); }
+        if(array.length > 0){
+            if(this.validateGroupName()){
+                this.setState({
+                    buttonCSS: 'button_enable',
+                    groupName: document.getElementById("groupName").value
+                });
+            }
+            else{ this.setState({
+                buttonCSS: 'button_disable',
+                groupName: ''
+            }); }
+        }
+        else{ this.setState({
+            buttonCSS: 'button_disable',
+            groupName: ''
+        }); }
     }
+
+    validateGroupName = () => {
+        let isValid = validateForAlphaNumericInput(
+            document.getElementById("groupName").value
+        );
+        console.log("groupName " + isValid);
+        return isValid;
+    };
 
     /**
      * This function is used to Show Player Information
@@ -122,31 +189,30 @@ class FriendsPage extends Component {
         if ((!this.state.playerNotFound && !this.state.serviceDown)) {
             let state = this.state;
 
-            let friendsArray = this.context.friendsList;
+            let friendsArray = this.context.completeInfoFriendsList;
             let children = [];
             if(!!friendsArray){
                 for(let index = 0; index < friendsArray.length; index++ ){
-                   children.push(
-                       <PlayerDetails playerInfo={friendsArray[index]}
-                                      index={index}
-                                      checkbox={true}
-                                      errorFlag={state.errorFlag}
-                                      serviceDown={state.serviceDown}
-                                      playerNotFound={state.playerNotFound}
-                                      handleSelectedFriends={this.handleSelectedFriends}
-                                      resetErrorFlg={this.setErrorFlag}>
-                       </PlayerDetails>
-                   );
+                    children.push(
+                        <PlayerDetails playerInfo={friendsArray[index]}
+                                       index={index}
+                                       checkbox={true}
+                                       errorFlag={state.errorFlag}
+                                       serviceDown={state.serviceDown}
+                                       playerNotFound={state.playerNotFound}
+                                       handleSelectedFriends={this.handleSelectedFriends}
+                                       resetErrorFlg={this.setErrorFlag}>
+                        </PlayerDetails>
+                    );
                 }
                 return children;
             }
         }
     }
 
-    addFriendsToPlayerInfo = () =>{
-        addFriends(this.context.gamerId, this.state.selectedFriends).then(data =>{
-            console.log("data: " + JSON.stringify(data));
-            //Navigate back to Player Info Page if Added Friends Successfully
+    addFriendsToGroup = () =>{
+        postGroup(this.context.gamerId, this.state.selectedFriends, this.state.groupName).then(data =>{
+            //Navigate back to Player Info Page if Group Created Successfully
             this.props.history.push({pathname: './playerInfo', state: {searchInput: this.context.gamerId}});
         }).catch(error => {
             console.log("ERROR ADDING FRIENDS " + error.message);
@@ -170,25 +236,37 @@ class FriendsPage extends Component {
         this.props.history.push({pathname: './playerInfo'});
     }
 
+    renderGroupNameInputBox = () =>{
+        return(
+            <div>
+                <div className="form_label">Group Name</div>
+                <div className="form-textbox">
+                    <input type="text" id="groupName" data-testid="groupName"/>
+                </div>
+            </div>
+        );
+    }
+
     render() {
         return (
             <Context.Consumer>
                 {(context) => (
-                    <div data-testid="friendsPage">
+                    <div data-testid="groupsPage">
                         <Header>
                             <BackNavigator {...this.props} />
-                            <div className="headerTxt">Player Search Results</div>
+                            <div className="headerTxt">Create Group</div>
                             <div>&nbsp;</div>
 
                         </Header>
                         <SubHeader gamerId={this.context.gamerId}></SubHeader>
-                        <div className="friendsPage" onClick={this.closeSkuDetailsImgModal} >
+                        <div className="groupsPage" onClick={this.closeSkuDetailsImgModal} >
 
-                            <div className="friendsBody">
+                            <div className="groupsBody">
                                 {this.renderErrorMessage()}
+                                {this.renderGroupNameInputBox()}
                                 {this.renderPlayerDetails()}
                                 <div className="clearDiv"></div>
-                                <div><button id="submit-button" className={this.state.buttonCSS + " submit-button disabled"} onClick={this.addFriendsToPlayerInfo}>Add Friends</button></div>
+                                <div><button id="submit-button" className={this.state.buttonCSS + " submit-button disabled"} onClick={this.addFriendsToGroup}>Create Group</button></div>
                                 <div data-testid="cancel-button"><button id="cancel-button" className="cancel-button"
                                                                          onClick={this.navigateToPlayerInfoPage}>Cancel</button></div>
                             </div>
@@ -200,5 +278,5 @@ class FriendsPage extends Component {
     }
 }
 
-FriendsPage.contextType = Context;
-export default FriendsPage;
+GroupsPage.contextType = Context;
+export default GroupsPage;

@@ -165,3 +165,61 @@ export async function addFriends(gamerId, friendIds) {
         return errorStatus;
     }
 }
+
+/* This function is used to invoke /gamer_friends endpoint in Match Maker Service
+ * @method  gamerFriendsInfo *
+ * @returns  {response object}*/
+export async function gamerFriendsInfo(friendIds) {
+    console.time('gamerFriendsInfo');
+    const endpoint = '/matchmaker/gamer_friends?gamerIds=';
+    const domain = MATCH_MAKER_DOMAIN;
+
+    // Building URL
+    var url = domain + endpoint + friendIds;
+
+    const response = await fetch(url, {
+        method: 'get',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+        .catch(function (error) {
+            console.log("ERROR in MatchMakerService: " + error);
+        })
+
+    try{
+        const json = await response.json();
+        console.timeEnd('gamerFriendsInfo');
+        return json;
+    }
+    catch(error){
+        console.log("ERROR in gamerFriendsInfo method: " + error);
+        let errorJson = {errorResponse:{ code: 503, message: "SERVICE UNAVAILABLE"}};
+        return errorJson;
+    }
+}
+
+/* This function is used to make the call to Match Maker Service to create a group
+ * @method  postGroup *
+ * @param gamerId
+ * @param gamerFriendIds
+ * @returns  {String}*/
+export async function postGroup(gamerId, gamerFriendIds, gamerGroupId) {
+    console.time('postGroup');
+    const endpoint = '/matchmaker/group?gamer_id=';
+    const domain = MATCH_MAKER_DOMAIN;
+    var url = domain + endpoint + gamerId + "&gamer_group_id=" + gamerGroupId + "&gamer_friend_ids=" + gamerFriendIds;
+
+    const response = await fetch(url, {
+        method: 'post',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }).catch(function (error) {
+            console.log("ERROR in match maker service when posting new Group: " + error);
+    })
+
+    const stringResponse = await response;
+    console.timeEnd('postGroup');
+    return stringResponse;
+}

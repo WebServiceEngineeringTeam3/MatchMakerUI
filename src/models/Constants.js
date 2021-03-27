@@ -1,9 +1,10 @@
 //Domain
-export const MATCH_MAKER_DOMAIN = "https://ksumatchmakerservice.azurewebsites.net";
+export const MATCH_MAKER_DOMAIN = "https://matchmakerservice-r34govutlq-ue.a.run.app";
 
 export const APP_TITLE = "MatchMaker";
 export const HOME_PAGE_LABEL = "Enter Player ID";
 export const CREATE_PROFILE_TEXT = "Create Player Profile";
+export const EDIT_PROFILE_TEXT = "Edit Player Profile";
 export const OVERWATCH_VALUE = "Overwatch";
 export const WARZONE_VALUE = "Warzone";
 export const WOW_VALUE = "World Of Warcraft";

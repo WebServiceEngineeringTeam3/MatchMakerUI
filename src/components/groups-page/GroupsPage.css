@@ -1,21 +1,18 @@
-.form_label {
-    font-weight: bold;
-    font-size: 16px;
-    padding-left: 5%;
-    margin-bottom: 5px;
-    margin-top: 30px;
+.groupsPage {
+    color: #333333;
+    background-color: #F9F9F9;
+    width: 100%;
+    /* height: 615px; */
+    height: calc(100% - 90px);
+    margin: 0 auto;
+    font-family: 'Open Sans', sans-serif;
 }
 
-.form-page{
-    top: 0;
-}
-
-.form-textbox{
-    padding-left: 5%;
-}
-
-.gamer-id-value{
-    padding-left: 5%;
+.groupsBody{
+    height: 800px;
+    overflow: auto;
+    margin-top:0px;
+    background-color: white;
 }
 
 .submit-button{
@@ -27,15 +24,11 @@
 }
 
 .button_disable{
-	color: #777777;
+    color: #777777;
 }
 
 .button_enable{
-	color: #F96302;
-}
-
-.headerTxt{
-    width: 50%;
+    color: #F96302;
 }
 
 .cancel-button{
