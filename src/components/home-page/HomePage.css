@@ -101,9 +101,17 @@
 }
 
 .addPlayerButton{
+    width: 80%;
+    margin-top: 2%;
+    margin-left: 10%;
+    border-radius: 10px;
+}
+
+.createGroupButton{
     position: absolute;
     width: 80%;
     margin-top: 2%;
     margin-left: 10%;
     border-radius: 10px;
 }
+

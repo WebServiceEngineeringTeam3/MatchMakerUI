@@ -254,7 +254,7 @@ class PlayerInfoPage extends Component {
             if (this.state.isLoading) return <Loading />;
 
             let groupsList = this.state.playerInfo.groupsList;
-            console.log("this.state.playerInfo.groupsList: " + this.state.playerInfo.groupsList);
+            console.log("this.state.playerInfo.groupsList: " + JSON.stringify(this.state.playerInfo.groupsList));
             if(groupsList && groupsList.length > 0){
                 let children = [];
                 if(!!groupsList){
@@ -289,6 +289,16 @@ class PlayerInfoPage extends Component {
         );
     }
 
+    renderCreateGroupButton = () =>{
+        return (
+            <div>
+                <Link to="/groupsPage" data-testid="groupsButton">
+                    <button type="button" className={"button btnContainer createGroupButton "+(this.state.showSearchModal ? 'hide': '')}>Create Group</button>
+                </Link>
+            </div>
+        );
+    }
+
     render() {
         return (
             <Context.Consumer>
@@ -309,6 +319,7 @@ class PlayerInfoPage extends Component {
                                 {this.renderFriendsList()}
                                 {this.renderGroupsList()}
                                 {this.renderSearchFriendsButton()}
+                                {this.renderCreateGroupButton()}
                                 <div className="clearDiv"></div>
 
                             </div>
