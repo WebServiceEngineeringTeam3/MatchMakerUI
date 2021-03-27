@@ -14,6 +14,10 @@
     padding-left: 5%;
 }
 
+.gamer-id-value{
+    padding-left: 5%;
+}
+
 .submit-button{
     font-size: 20px;
     border: 1px #CCCCCC;
@@ -32,4 +36,14 @@
 
 .headerTxt{
     width: 50%;
+}
+
+.cancel-button{
+    font-size: 20px;
+    border: 1px #CCCCCC;
+    background-color: #F9F9F9;
+    margin-left: 10px;
+    margin-top: 5px;
+    color: #F96302;
+    margin-left: 5%;
 }

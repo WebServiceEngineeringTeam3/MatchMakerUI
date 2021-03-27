@@ -11,7 +11,7 @@ import {
   MK8_VALUE,
   FORTNITE_VALUE,
   RESOURCE_NOT_AVAILABLE_CODE,
-  SERVICE_ERROR_CODE,
+  SERVICE_ERROR_CODE, EDIT_PROFILE_TEXT
 } from "../../models/Constants";
 import ResponseHelper from "../Util/ResponseHelper.js";
 import Context from "../../components/contexts/Context";
@@ -36,14 +36,7 @@ class FormPage extends Component {
       playerFound: false,
       errorFlag: false,
       buttonCSS: "button_disable",
-      fromPage: "",
     };
-  }
-
-  componentDidMount() {
-    this.setState({
-      fromPage: this.props.location.pathname,
-    });
   }
 
   validateFirstName = () => {
@@ -63,6 +56,7 @@ class FormPage extends Component {
   };
 
   validateGamerId = () => {
+    if (this.context.playerInfo !== null) {return true;}
     let isValid = validateForAlphaNumericAndSpaceInput(
       document.getElementById("gamerId").value
     );
@@ -103,37 +97,26 @@ class FormPage extends Component {
 
   getFormParams = () => {
     if (this.context.playerInfo !== null) {
-      document.getElementById(
-        "firstName"
-      ).value = this.context.playerInfo.firstName;
-      document.getElementById(
-        "lastName"
-      ).value = this.context.playerInfo.lastName;
-      document.getElementById(
-        "gamerId"
-      ).value = this.context.playerInfo.gamerId;
+      document.getElementById("firstName").value = this.context.playerInfo.firstName;
+      document.getElementById("lastName").value = this.context.playerInfo.lastName;
       document.getElementById("age").value = this.context.playerInfo.age;
-      document.getElementById(
-        "minimumWaitTime"
-      ).value = this.context.playerInfo.minimumWaitTime;
+      document.getElementById("minimumWaitTime").value = this.context.playerInfo.minimumWaitTime;
+
       let skillLevel = this.context.playerInfo.skillLevel;
-      document
-        .getElementById("skillLevel")
-        .options.namedItem(skillLevel).selected = true;
+      document.getElementById(skillLevel).selected = true;
+
       let region = this.context.playerInfo.region;
-      document
-        .getElementById("region")
-        .options.namedItem(region).selected = true;
+      document.getElementById(region).selected = true;
+
       let language = this.context.playerInfo.language;
-      document
-        .getElementById("language")
-        .options.namedItem(language).selected = true;
+      document.getElementById(language).selected = true;
+
       let personalityType = this.context.playerInfo.personalityType;
-      document
-        .getElementById("personalityType")
-        .options.namedItem(personalityType).selected = true;
+      document.getElementById(personalityType).selected = true;
+
       let game = this.context.playerInfo.game;
-      document.getElementById("game").options.namedItem(game).selected = true;
+      document.getElementById(game).selected = true;
+
     }
   };
 
@@ -179,6 +162,9 @@ class FormPage extends Component {
         document.getElementById("gameMode").add(newSelect);
       }
     }
+    else{
+      document.getElementById("gameMode").innerHTML = "";
+    }
   };
 
   processPlayer = () => {
@@ -189,7 +175,7 @@ class FormPage extends Component {
 
       let firstName = document.getElementById("firstName").value;
       let lastName = document.getElementById("lastName").value;
-      let gamerId = document.getElementById("gamerId").value;
+      let gamerId;
       let skillLevel = document.getElementById("skillLevel").value;
       let region = document.getElementById("region").value;
       let age = document.getElementById("age").value;
@@ -201,9 +187,14 @@ class FormPage extends Component {
       if (this.context.playerInfo !== null) {
         gamerId = this.context.playerInfo.gamerId;
       }
+      else{
+        gamerId = document.getElementById("gamerId").value;
+      }
       console.log("FormPage gamerId: " + gamerId);
+      let crud_operation = "CREATE";
+      if (this.context.playerInfo !== null) {crud_operation="UPDATE";}
       postPlayer(
-        "CREATE",
+          crud_operation,
         gamerId,
         firstName,
         lastName,
@@ -333,6 +324,39 @@ class FormPage extends Component {
     }
   }
 
+  renderHeader = () =>{
+    if (this.context.playerInfo !== null) {
+      return EDIT_PROFILE_TEXT;
+    }
+    else{
+      return CREATE_PROFILE_TEXT;
+    }
+  }
+
+  navigateToPreviousPage = () =>{
+    if (this.context.playerInfo !== null) {this.props.history.push({pathname: './playerInfo'});}
+    else{this.props.history.push({pathname: '/'});}
+  }
+
+  renderGamerIdInput = () =>{
+    if (this.context.playerInfo !== null) {
+      return (<div className="gamer-id-value">{this.context.playerInfo.gamerId}</div>);
+    }
+    else{
+      return (
+          <div className="form-textbox">
+            <input
+                type="text"
+                id="gamerId"
+                data-testid="gamerId"
+                onKeyUp={this.validateFormInput}
+            ></input>
+          </div>
+      );
+    }
+  }
+
+
   render() {
     return (
       <Context.Consumer>
@@ -340,7 +364,7 @@ class FormPage extends Component {
           <div className="form-page" onLoad={this.getFormParams}>
             <Header>
               <BackNavigator {...this.props} />
-              <div className="headerTxt">{CREATE_PROFILE_TEXT}</div>
+              <div className="headerTxt">{this.renderHeader()}</div>
               <div>&nbsp;</div>
             </Header>
             {this.renderErrorMessage()}
@@ -363,14 +387,7 @@ class FormPage extends Component {
               ></input>
             </div>
             <div className="form_label">Gamer ID</div>
-            <div className="form-textbox">
-              <input
-                type="text"
-                id="gamerId"
-                data-testid="gamerId"
-                onKeyUp={this.validateFormInput}
-              ></input>
-            </div>
+            {this.renderGamerIdInput()}
             <div className="form_label">Age</div>
             <div className="form-textbox">
               <input
@@ -400,6 +417,9 @@ class FormPage extends Component {
                 </option>
                 <option value="mid-core" id="mid-core">
                   Mid-Core
+                </option>
+                <option value="Advanced" id="Advanced">
+                  Advanced
                 </option>
                 <option value="competition level" id="competition level">
                   Competition Level
@@ -534,6 +554,8 @@ class FormPage extends Component {
                 Submit
               </button>
             </div>
+            <div data-testid="cancel-button"><button id="cancel-button" className="cancel-button"
+                                                     onClick={this.navigateToPreviousPage}>Cancel</button></div>
           </div>
         )}
       </Context.Consumer>
