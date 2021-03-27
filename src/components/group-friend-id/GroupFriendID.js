@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import Context from '../../components/contexts/Context';
-import './FriendID.css';
+import './GroupFriendID.css';
 
-class FriendID extends Component {
+class GroupFriendID extends Component {
 
     constructor(props) {
         super(props)
         this.state = {
-            friendId: this.props.friendId,
+            groupFriend: this.props.groupFriend,
             setPlayerModal: this.props.setPlayerModal,
             clicked: false
         }
@@ -17,19 +17,19 @@ class FriendID extends Component {
         this.setState({
             clicked: true
         });
-        this.props.setPlayerModal(this.props.friendId);
+        this.props.setPlayerModal(this.props.groupFriend.gamer_friend_id);
     }
 
     render() {
         return (
             <Context.Consumer>
                 {(context) => (
-                    <div data-testid="friendIdModal">
+                    <div data-testid="groupFriendIdModal">
                         <div>
 
                             <div>
                                 <div className="clearDiv"></div>
-                                <div><button id="friend-button" className="button_enable" onClick={this.setClicked}>{this.props.friendId}</button></div>
+                                <div><button id="group-friend-button" className="button_enable" onClick={this.setClicked}>{this.props.groupFriend.gamer_group_id + " " + this.props.groupFriend.gamer_friend_id}</button></div>
                             </div>
                         </div>
                     </div>
@@ -39,5 +39,5 @@ class FriendID extends Component {
     }
 }
 
-FriendID.contextType = Context;
-export default FriendID;
+GroupFriendID.contextType = Context;
+export default GroupFriendID;

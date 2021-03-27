@@ -15,7 +15,10 @@ function getFormPage(props){
                 searchedInput: '',
                 setSearchedInput: jest.fn(),
                 setPlayerInfo: jest.fn(),
-                setPlayerId: jest.fn()
+                setPlayerId: jest.fn(),
+                playerInfo: {
+                    gamerId: "ungo1985"
+                }
             }}>
                 <FormPage {...props}/>
             </Context.Provider>
@@ -37,7 +40,7 @@ describe('FormPage', () => {
     })
     it('renders main title', () => {
         render(getFormPage(props))
-        screen.getByText(CREATE_PROFILE_TEXT)
+        screen.getByTestId("headerTxt")
     })
     it('renders text boxes', () => {
         render(getFormPage(props))
