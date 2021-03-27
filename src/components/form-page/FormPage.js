@@ -340,7 +340,7 @@ class FormPage extends Component {
 
   renderGamerIdInput = () =>{
     if (this.context.playerInfo !== null) {
-      return (<div className="gamer-id-value">{this.context.playerInfo.gamerId}</div>);
+      return (<div className="gamer-id-value" data-testid="gamerId">{this.context.playerInfo.gamerId}</div>);
     }
     else{
       return (
@@ -364,7 +364,7 @@ class FormPage extends Component {
           <div className="form-page" onLoad={this.getFormParams}>
             <Header>
               <BackNavigator {...this.props} />
-              <div className="headerTxt">{this.renderHeader()}</div>
+              <div className="headerTxt" data-testid="headerTxt">{this.renderHeader()}</div>
               <div>&nbsp;</div>
             </Header>
             {this.renderErrorMessage()}
